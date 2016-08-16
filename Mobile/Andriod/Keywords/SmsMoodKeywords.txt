@@ -15,8 +15,8 @@ mood Wait SMS
 mood Open SMS App
     [Arguments]    ${remoteUrl}    ${platformName}    ${platformVersion}    ${udid}
     Log    In mood Open SMS App
-    AISAppium Open Application    http://${remoteUrl}/wd/hub    platformName=${platformName}    platformVersion=${platformVersion}    udid=${udid}    appPackage=com.calea.echo    appActivity=com.calea.echo.MainActivity
-    deviceName=${remoteUrl}
+    Aisappium Open Application    http://${remoteUrl}/wd/hub    platformName=${platformName}    platformVersion=${platformVersion}    udid=${udid}    appPackage=com.calea.echo    appActivity=com.calea.echo.MainActivity
+    ...    deviceName=${remoteUrl}
     Log    Out mood Open SMS App
 
 mood Wait SMS All Sender
