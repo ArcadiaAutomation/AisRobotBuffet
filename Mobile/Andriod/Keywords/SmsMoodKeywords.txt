@@ -1,0 +1,64 @@
+*** Settings ***
+Library           Collections
+Resource          ../Repository/SmsMoodRepository.txt
+Library           ../Library/AtlasAppium.py
+
+*** Keywords ***
+mood Wait SMS
+    [Arguments]    ${totalSms}    ${timeout}    ${sender}
+    Comment    Log    In mood Wait SMS
+    ${timeout}=    Convert To Integer    ${timeout}
+    Run Keyword If    ${sender}==all    Wait Until Keyword Succeeds    ${timeout} s    1 s    mood Wait SMS All Sender    ${totalSms}
+    Run Keyword If    ${sender}!=all    FAIL    Not implement specific sender...
+    Comment    Log    Out mood Wait SMS
+
+mood Open SMS App
+    [Arguments]    ${remoteUrl}    ${platformName}    ${platformVersion}    ${udid}
+    Log    In mood Open SMS App
+    AtlasAppium.Open Application    http://${remoteUrl}/wd/hub    platformName=${platformName}    platformVersion=${platformVersion}    udid=${udid}    appPackage=com.calea.echo    appActivity=com.calea.echo.MainActivity
+    ...    deviceName=${remoteUrl}
+    Log    Out mood Open SMS App
+
+mood Wait SMS All Sender
+    [Arguments]    ${totalSms}
+    Comment    Log    In mood Wait SMS All Sender
+    ${totalUnread}=    Set Variable    0
+    @{unreadElements}    AtlasAppium.Get Elements    ${lblUnreadNumber}
+    : FOR    ${eachUnread}    IN    @{unreadElements}
+    \    ${number}=    Convert To Integer    ${eachUnread.get_attribute('text')}
+    \    ${totalUnread}=    Evaluate    ${number} + ${totalUnread}
+    Run Keyword If    ${totalUnread} < ${totalSms}    FAIL    waiting more sms...
+    Comment    Log    out mood Wait SMS All Sender
+
+mood Read SMS
+    [Arguments]    ${sender}    ${totalSms}=1
+    Log    In Mood Read SMS
+    @{emptyList}=    Create List
+    @{messages}=    Create List
+    @{senderNameElements}    AtlasAppium.Get Elements    ${lblSenderName}
+    : FOR    ${senderNameElement}    IN    @{senderNameElements}
+    \    ${senderName}=    Convert To String    ${senderNameElement.get_attribute('text')}
+    \    @{messages}=    Run Keyword If    '${senderName}' == '${sender}'    mood Collect SMS Message    ${senderNameElement}    ${totalSms}
+    \    Run Keyword If    @{messages} != @{emptyList}    Exit For Loop
+    Run Keyword If    @{messages} == @{emptyList}    FAIL    Not found sender to read SMS
+    Log    Out Mood Read SMS
+    [Return]    ${messages}
+
+mood Collect SMS Message
+    [Arguments]    ${senderElement}    ${totalSms}
+    Log    In mood Collect SMS Message
+    Evaluate    '${senderElement.click()}'
+    sleep    1    Delay before read SMS
+    ${totalSms}=    Convert To Integer    ${totalSms}
+    ${counter}=    Set Variable    0
+    @{messages}=    Create List
+    @{messageElements}=    AtlasAppium.Get Elements    ${lblTextMessage}
+    Convert To List    ${messageElements}
+    Reverse List    ${messageElements}
+    : FOR    ${messageElement}    IN    @{messageElements}
+    \    ${message}    Convert To String    ${messageElement.get_attribute('text')}
+    \    Run Keyword If    ${counter} < ${totalSms}    Append To List    ${messages}    ${message}
+    \    ${counter}=    Evaluate    ${counter} + 1
+    \    Run Keyword If    ${counter} >= ${totalSms}    Exit For Loop
+    Log    Out mood Collect SMS
+    [Return]    ${messages}

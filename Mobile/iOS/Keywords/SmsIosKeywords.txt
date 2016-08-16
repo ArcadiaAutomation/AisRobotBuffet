@@ -1,0 +1,16 @@
+*** Settings ***
+Library           AppiumLibrary
+
+*** Keywords ***
+ios Wait SMS
+    [Arguments]    ${totalSms}    ${timeout}    ${sender}=all
+    FAIL    Not Implement...
+
+ios Open SMS App
+    [Arguments]    ${remoteUrl}
+    Log    ${remoteUrl}
+    FAIL    Not Implement...
+
+ios Read SMS
+    [Arguments]    ${sender}    ${totalSms}
+    FAIL    Not Implement...

@@ -1,0 +1,4 @@
+*** Variables ***
+${lblUnreadNumber}    //*[@resource-id='com.calea.echo:id/new_msg']
+${lblSenderName}    //*[@resource-id='com.calea.echo:id/name']
+${lblTextMessage}    //*[@resource-id='com.calea.echo:id/imm_text']
