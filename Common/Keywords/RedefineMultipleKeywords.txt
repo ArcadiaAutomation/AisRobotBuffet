@@ -1,6 +1,6 @@
 *** Settings ***
 Library           Selenium2Library    run_on_failure=Selenium2Library.Capture Page Screenshot
-Library           ../../Library/Mobile/Android/AISAppiumEx.py
+Library           ../Library/AISAppiumEx.py    run_on_failure=Selenium2Library.Capture Page Screenshot
 
 *** Keywords ***
 Click Web Element
@@ -9,7 +9,7 @@ Click Web Element
 
 Click Mobile Element
     [Arguments]    ${locator}
-    AppiumLibrary.Click Element    ${locator}
+    AISAppiumEx.Click Element    ${locator}
 
 Click Web Button
     [Arguments]    ${locator}
@@ -17,7 +17,7 @@ Click Web Button
 
 Click Mobile Button
     [Arguments]    ${index_or_name}
-    AppiumLibrary.Click Button    ${index_or_name}
+    AISAppiumEx.Click Button    ${index_or_name}
 
 Input Web Text
     [Arguments]    ${locator}    ${text}
@@ -25,7 +25,7 @@ Input Web Text
 
 Input Mobile Text
     [Arguments]    ${locator}    ${text}
-    AppiumLibrary.Input Text    ${locator}    ${text}
+    AISAppiumEx.Input Text    ${locator}    ${text}
 
 Web Element Should Be Disabled
     [Arguments]    ${locator}
@@ -41,7 +41,7 @@ Wait Web Until Page Contains Element
 
 Wait Mobile Until Page Contains Element
     [Arguments]    ${locator}
-    AppiumLibrary.Wait Until Page Contains Element    ${locator}
+    AISAppiumEx.Wait Until Page Contains Element    ${locator}
 
 Get Web Text
     [Arguments]    ${locator}
@@ -50,6 +50,6 @@ Get Web Text
 MobileSwitchApp
     [Arguments]    ${AppName}
     [Documentation]    You have to wait before opening the program.
-    AtlasAppium.Press Keycode    187
+    Press Keycode    187
     sleep    2
     Click Mobile Element    xpath=(//android.widget.TextView[@text='${AppName}'])
