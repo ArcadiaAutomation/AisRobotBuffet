@@ -1,7 +1,7 @@
 *** Settings ***
 Library           Collections
 Resource          ../Repository/SmsMoodRepository.txt
-Library           ../Library/AtlasAppium.py
+Library           ../../../Common/Library/AISAppiumEx.py
 
 *** Keywords ***
 mood Wait SMS
@@ -15,7 +15,7 @@ mood Wait SMS
 mood Open SMS App
     [Arguments]    ${remoteUrl}    ${platformName}    ${platformVersion}    ${udid}
     Log    In mood Open SMS App
-    AtlasAppium.Open Application    http://${remoteUrl}/wd/hub    platformName=${platformName}    platformVersion=${platformVersion}    udid=${udid}    appPackage=com.calea.echo    appActivity=com.calea.echo.MainActivity
+    AISAppium Open Application    http://${remoteUrl}/wd/hub    platformName=${platformName}    platformVersion=${platformVersion}    udid=${udid}    appPackage=com.calea.echo    appActivity=com.calea.echo.MainActivity
     ...    deviceName=${remoteUrl}
     Log    Out mood Open SMS App
 
@@ -23,7 +23,7 @@ mood Wait SMS All Sender
     [Arguments]    ${totalSms}
     Comment    Log    In mood Wait SMS All Sender
     ${totalUnread}=    Set Variable    0
-    @{unreadElements}    AtlasAppium.Get Elements    ${lblUnreadNumber}
+    @{unreadElements}    AISAppium Get Elements    ${lblUnreadNumber}
     : FOR    ${eachUnread}    IN    @{unreadElements}
     \    ${number}=    Convert To Integer    ${eachUnread.get_attribute('text')}
     \    ${totalUnread}=    Evaluate    ${number} + ${totalUnread}
@@ -35,7 +35,7 @@ mood Read SMS
     Log    In Mood Read SMS
     @{emptyList}=    Create List
     @{messages}=    Create List
-    @{senderNameElements}    AtlasAppium.Get Elements    ${lblSenderName}
+    @{senderNameElements}    AISAppium Get Elements    ${lblSenderName}
     : FOR    ${senderNameElement}    IN    @{senderNameElements}
     \    ${senderName}=    Convert To String    ${senderNameElement.get_attribute('text')}
     \    @{messages}=    Run Keyword If    '${senderName}' == '${sender}'    mood Collect SMS Message    ${senderNameElement}    ${totalSms}
@@ -52,7 +52,7 @@ mood Collect SMS Message
     ${totalSms}=    Convert To Integer    ${totalSms}
     ${counter}=    Set Variable    0
     @{messages}=    Create List
-    @{messageElements}=    AtlasAppium.Get Elements    ${lblTextMessage}
+    @{messageElements}=    AISAPPium Get Elements    ${lblTextMessage}
     Convert To List    ${messageElements}
     Reverse List    ${messageElements}
     : FOR    ${messageElement}    IN    @{messageElements}
