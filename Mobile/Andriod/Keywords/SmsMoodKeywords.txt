@@ -1,7 +1,7 @@
 *** Settings ***
 Library           Collections
 Resource          ../Repository/SmsMoodRepository.txt
-Library           ../../../Common/Library/AISAppiumEx.py
+Library           ../../../Library/Mobile/AISAppiumEx.py
 
 *** Keywords ***
 mood Wait SMS
