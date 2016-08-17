@@ -47,7 +47,7 @@ Get Web Text
     [Arguments]    ${locator}
     Selenium2Library.Get Text    ${locator}
 
-MobileSwitchApp
+Mobile Switch App
     [Arguments]    ${AppName}
     [Documentation]    You have to wait before opening the program.
     Press Keycode    187
