@@ -1,6 +1,6 @@
 *** Settings ***
 Library           Selenium2Library    run_on_failure=Selenium2Library.Capture Page Screenshot
-Library           ../Library/AISAppiumEx.py    run_on_failure=Selenium2Library.Capture Page Screenshot
+Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=Selenium2Library.Capture Page Screenshot
 
 *** Keywords ***
 Click Web Element
