@@ -62,3 +62,13 @@ mood Collect SMS Message
     \    Run Keyword If    ${counter} >= ${totalSms}    Exit For Loop
     Log    Out mood Collect SMS
     [Return]    ${messages}
+
+mood Clear All Unread SMS
+    Log To Console    Clear SMS
+    @{unreadElements}    Aisappium Get Elements    ${fraUnreadFlag}
+    :FOR    ${eachUnread}    IN    @{unreadElements}
+    \    Log To Console    Unread detail: ${eachUnread}
+    \    Evaluate    '${eachUnread.click()}'
+    \    Sleep    2
+    \    Aisappium Click Element    ${btnSmsBack}
+    Log To Console    End Clear SMS

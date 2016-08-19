@@ -31,3 +31,6 @@ Read SMS
     Log List    ${messages}
     Log    Out Read SMS
     [Return]    ${messages}
+
+    [Arguments]    ${os}
+    ...    ELSE IF    '${os}' == 'iOS'    Log To Console    Welcome iOS
