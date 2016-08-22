@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ElementTree
 
 # define constant
 DEVICE_NAME = '#device_name'
+SPACE_SPLITER = '    '
 
 
 class State(object):
@@ -87,10 +88,24 @@ class LocalConfiger:
         default = device.find('default')
         items = default.findall('item')
         for item in items:
+            # define key name
+            keyname = key + item.get('name')
             # Check type of value
             if item.get('type') == 'Scalar':
-                keyname = key + item.get('name')
                 result[keyname] = item.find('value').text
+            elif item.get('type') == 'List':
+                values = item.findall('value')
+                list_value = []
+                for value in values:
+                    list_value.append(value.text)
+                result[keyname] = list_value
+            elif item.get('type') == 'Dictionary':
+                values = item.findall('value')
+                dic_value = {}
+                for value in values:
+                    name = value.get('name')
+                    dic_value[name] = value.text
+                result[keyname] = dic_value
 
         print(result)
         return result
