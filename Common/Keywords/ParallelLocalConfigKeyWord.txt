@@ -1,0 +1,17 @@
+*** Settings ***
+Library           Collections
+Library           ../../Library/General/ParallelConfigLibrary.py
+
+*** Keywords ***
+Take And Define Virtual Local Configuration
+    [Arguments]    ${local_config_file_path}    ${key_tag}    ${timeout}=60
+    &{local_config_data}=    Wait Until Keyword Succeeds    ${timeout} s    1 s    Take Virtual Local Config    ${local_config_file_path}    ${key_tag}
+    ${items}=    Get Dictionary Items    ${local_config_data}
+    : FOR    ${key}    ${value}    IN    @{items}
+    \    Log    ${key} : ${value}
+    \    Set Test Variable    ${${key}}    ${value}
+
+Release Virtual Local Configurations
+    [Arguments]    ${local_config_file_path}    @{#list_device_name}
+    :FOR    ${device_name}    IN    @{#list_device_name}
+    \    Release Virtual Local Config    ${local_config_file_path}    ${device_name}
