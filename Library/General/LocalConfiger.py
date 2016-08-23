@@ -1,9 +1,11 @@
-import time
+import datetime
 import xml.etree.ElementTree as ElementTree
 from FileLock import FileLock
 
+
 # define constant
 DEVICE_NAME = '#device_name'
+TIMESTAMP = '#timestamp'
 
 
 class State(object):
@@ -16,40 +18,37 @@ class LocalConfiger:
         print('hey.')
 
     @staticmethod
-    def release_virtual_local_config(config_file, device_name):
-        print(config_file)
-        print(device_name)
+    def release_virtual_local_config(config_file, device_name, timestamp):
         with FileLock(config_file):
             tree = ElementTree.parse(config_file)
             root = tree.getroot()
             device = root.find('.//device[@name="' + device_name + '"]')
+            if timestamp != device.get('timestamp'):
+                # Will can not change state because this locked by another.
+                print('timestamp not valid to release device ' + device_name)
+                return
             device.set('state', State.NORMAL)
             tree.write(config_file)
 
     @staticmethod
-    def take_virtual_local_config(config_file, key):
+    def take_virtual_local_config(config_file, key_tag):
         # type: (basestring, basestring) -> dictionary
-        print(config_file)
-        print(key)
         result = None
         with FileLock(config_file):
             tree = ElementTree.parse(config_file)
             root = tree.getroot()
-            for device in root.findall('.//device[@state="Normal"]'):
-                # state = device.find('state')
-                # print(state.text)
-                #  Check device state is normal
-                # if state.text != State.NORMAL:
-                #     print('State is ' + state.text + ' continue')
-                #     continue
+            for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
 
                 # Check device is tag is support key
-                if not LocalConfiger.__check_key_is_match_in_support_tag(device, key):
-                    print('Device is not tag support ' + key + ' continue')
+                if not LocalConfiger.__check_key_is_match_in_support_tag(device, key_tag):
+                    print('Device ' + device.get('name') + ' is not tag support ' + key_tag + ' continue')
                     continue
 
+                # Mark timestamp
+                device.set('timestamp', str(datetime.datetime.utcnow()))
+
                 # Create virtual local config data
-                result = LocalConfiger.__create_virtual_local_config_dictionary(device, key)
+                result = LocalConfiger.__create_virtual_local_config_dictionary(device, key_tag)
 
                 # Mark sate to Busy
                 device.set('state', State.BUSY)
@@ -66,8 +65,6 @@ class LocalConfiger:
     @staticmethod
     def __check_key_is_match_in_support_tag(device, key):
         pass
-        # print (device)
-        # print (key)
         tags = device.find('tags')
         for eachTag in tags.findall('tag'):
             if eachTag.text == key:
@@ -79,14 +76,15 @@ class LocalConfiger:
     @staticmethod
     def __create_virtual_local_config_dictionary(device, key):
         pass
-        print (device)
-        print (key)
         # result = None
         result = {}
         key += "_"
-        # Must be have a DEVICE NAME
+        # Must have a DEVICE NAME
         device_name = device.get('name')
         result[key + DEVICE_NAME] = device_name
+        # Must have a TIMESTAMP
+        timestamp = device.get('timestamp')
+        result[key + TIMESTAMP] = timestamp
         # Get default element
         default = device.find('default')
         items = default.findall('item')
@@ -110,5 +108,4 @@ class LocalConfiger:
                     dic_value[name] = value.text
                 result[keyname] = dic_value
 
-        print(result)
         return result
