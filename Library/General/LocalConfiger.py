@@ -4,7 +4,6 @@ from FileLock import FileLock
 
 # define constant
 DEVICE_NAME = '#device_name'
-SPACE_SPLITER = '    '
 
 
 class State(object):
@@ -20,11 +19,12 @@ class LocalConfiger:
     def release_virtual_local_config(config_file, device_name):
         print(config_file)
         print(device_name)
-        tree = ElementTree.parse(config_file)
-        root = tree.getroot()
-        device = root.find('.//device[@name="' + device_name + '"]')
-        device.set('state', State.NORMAL)
-        tree.write(config_file)
+        with FileLock(config_file):
+            tree = ElementTree.parse(config_file)
+            root = tree.getroot()
+            device = root.find('.//device[@name="' + device_name + '"]')
+            device.set('state', State.NORMAL)
+            tree.write(config_file)
 
     @staticmethod
     def take_virtual_local_config(config_file, key):
@@ -35,7 +35,6 @@ class LocalConfiger:
         with FileLock(config_file):
             tree = ElementTree.parse(config_file)
             root = tree.getroot()
-            time.sleep(10)
             for device in root.findall('.//device[@state="Normal"]'):
                 # state = device.find('state')
                 # print(state.text)
