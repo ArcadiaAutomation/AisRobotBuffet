@@ -5,6 +5,7 @@ Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=Selenium
 *** Keywords ***
 Click Web Element
     [Arguments]    ${locator}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
     Selenium2Library.Click Element    ${locator}
 
 Click Mobile Element
@@ -13,6 +14,7 @@ Click Mobile Element
 
 Click Web Button
     [Arguments]    ${locator}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
     Selenium2Library.Click Button    ${locator}
 
 Click Mobile Button
@@ -21,6 +23,7 @@ Click Mobile Button
 
 Input Web Text
     [Arguments]    ${locator}    ${text}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
     Selenium2Library.Input Text    ${locator}    ${text}
 
 Input Mobile Text
@@ -29,10 +32,12 @@ Input Mobile Text
 
 Web Element Should Be Disabled
     [Arguments]    ${locator}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
     Selenium2Library.Element Should Be Disabled    ${locator}
 
 Web Element Should Be Enabled
     [Arguments]    ${locator}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}
     Selenium2Library.Element Should Be Enabled    ${locator}
 
 Wait Web Until Page Contains Element
@@ -45,6 +50,7 @@ Wait Mobile Until Page Contains Element
 
 Get Web Text
     [Arguments]    ${locator}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
     Selenium2Library.Get Text    ${locator}
 
 Mobile Switch App
