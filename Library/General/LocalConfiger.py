@@ -1,4 +1,6 @@
+import time
 import xml.etree.ElementTree as ElementTree
+from FileLock import FileLock
 
 # define constant
 DEVICE_NAME = '#device_name'
@@ -30,32 +32,34 @@ class LocalConfiger:
         print(config_file)
         print(key)
         result = None
-        tree = ElementTree.parse(config_file)
-        root = tree.getroot()
-        for device in root.findall('.//device[@state="Normal"]'):
-            # state = device.find('state')
-            # print(state.text)
-            #  Check device state is normal
-            # if state.text != State.NORMAL:
-            #     print('State is ' + state.text + ' continue')
-            #     continue
+        with FileLock(config_file):
+            tree = ElementTree.parse(config_file)
+            root = tree.getroot()
+            time.sleep(10)
+            for device in root.findall('.//device[@state="Normal"]'):
+                # state = device.find('state')
+                # print(state.text)
+                #  Check device state is normal
+                # if state.text != State.NORMAL:
+                #     print('State is ' + state.text + ' continue')
+                #     continue
 
-            # Check device is tag is support key
-            if not LocalConfiger.__check_key_is_match_in_support_tag(device, key):
-                print('Device is not tag support ' + key + ' continue')
-                continue
+                # Check device is tag is support key
+                if not LocalConfiger.__check_key_is_match_in_support_tag(device, key):
+                    print('Device is not tag support ' + key + ' continue')
+                    continue
 
-            # Create virtual local config data
-            result = LocalConfiger.__create_virtual_local_config_dictionary(device, key)
+                # Create virtual local config data
+                result = LocalConfiger.__create_virtual_local_config_dictionary(device, key)
 
-            # Mark sate to Busy
-            device.set('state', State.BUSY)
+                # Mark sate to Busy
+                device.set('state', State.BUSY)
 
-            # Update xml local config file.
-            tree.write(config_file)
+                # Update xml local config file.
+                tree.write(config_file)
 
-            # Return and exit function
-            return result
+                # Return and exit function
+                return result
 
         # All busy or not support throw fail
         raise Exception('All busy or not support.')
@@ -88,7 +92,7 @@ class LocalConfiger:
         default = device.find('default')
         items = default.findall('item')
         for item in items:
-            # define key name
+            # Define key name
             keyname = key + item.get('name')
             # Check type of value
             if item.get('type') == 'Scalar':
