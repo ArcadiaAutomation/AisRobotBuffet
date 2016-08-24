@@ -2,6 +2,7 @@
 Library           Collections
 Resource          ../Repository/SmsMoodRepository.txt
 Library           ../../../Library/Mobile/AISAppiumEx.py
+Resource          ../../Generic/Keywords/SmsGenericKeywords.txt
 
 *** Keywords ***
 mood Wait SMS
@@ -64,11 +65,23 @@ mood Collect SMS Message
     [Return]    ${messages}
 
 mood Clear All Unread SMS
-    Log     Clear SMS
+    Log    Clear SMS
     @{unreadElements}    Aisappium Get Elements    ${fraUnreadFlag}
     : FOR    ${eachUnread}    IN    @{unreadElements}
     \    Log To Console    Unread detail: ${eachUnread}
     \    Evaluate    '${eachUnread.click()}'
     \    Sleep    2
     \    Aisappium Click Element    ${btnSmsBack}
-    Log     End Clear SMS
+    Log    End Clear SMS
+
+mood Verify SMS
+    [Arguments]    ${IPAppium}    ${SN}    ${PlatfromName}    ${PlatfromVersion}    ${SenderName}    ${MessageExpect}
+    Open SMS App    ${IPAppium}    ${PlatfromName}    ${PlatfromVersion}    ${SN}
+    Wait SMS    ${PlatfromName}    1    ${lo_GeneralTimeOut}
+    @{messages}=    Read SMS    ${PlatfromName}    ${SenderName}    1
+    Log To Console    @{messages}[0]
+    ${MessageActual}    Set Variable    @{messages}[0]
+    sleep    2
+    Run Keyword If    """${MessageExpect}"""== """${MessageActual}"""    AISAppiumEx.Close Application
+    ...    ELSE    fail
+    Log    ${MessageExpect}
