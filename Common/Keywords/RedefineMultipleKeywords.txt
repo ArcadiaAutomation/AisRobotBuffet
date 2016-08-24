@@ -67,5 +67,5 @@ Web Element Should Be Visible
 
 Web Element Text Should Be
     [Arguments]    ${locator}    ${text}
-    Wait Until Element Is Visible    ${locator}
-    Element Text Should Be    ${locator}     ${text}
+    Wait Until Element Is Visible    ${locator}    10
+    Element Text Should Be    ${locator}    ${text}
