@@ -1,5 +1,4 @@
 *** Settings ***
-Library           AppiumLibrary
 
 *** Keywords ***
 ios Wait SMS
