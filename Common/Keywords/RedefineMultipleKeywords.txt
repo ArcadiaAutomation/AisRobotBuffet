@@ -59,3 +59,13 @@ Mobile Switch App
     Press Keycode    187
     sleep    2
     Click Mobile Element    xpath=(//android.widget.TextView[@text='${AppName}'])
+
+Web Element Should Be Visible
+    [Arguments]    ${locator}
+    Wait Until Element Is Visible    ${locator}    10
+    Element Should Be Visible    ${locator}
+
+Web Element Text Should Be
+    [Arguments]    ${locator}    ${text}
+    Wait Until Element Is Visible    ${locator}    10
+    Element Text Should Be    ${locator}    ${text}
