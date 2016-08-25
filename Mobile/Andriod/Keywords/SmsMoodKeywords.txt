@@ -67,13 +67,17 @@ mood Collect SMS Message
 
 mood Clear All Unread SMS
     Log    Clear SMS
-    @{unreadElements}    Aisappium Get Elements    ${fraUnreadFlag}
+    ${status} =    Run Keyword And Return Status    Get Elements    ${fraUnreadFlag}    ${fraUnreadFlag}
+    Return From Keyword If    '${status}'== 'False'    ${status}
+    @{unreadElements}=    Get Elements    ${fraUnreadFlag}
+    Comment    @{unreadElements}=    Get Elements    ${fraUnreadFlag}
     : FOR    ${eachUnread}    IN    @{unreadElements}
     \    Log To Console    Unread detail: ${eachUnread}
     \    Evaluate    '${eachUnread.click()}'
     \    Sleep    2
     \    Aisappium Click Element    ${btnSmsBack}
     Log    End Clear SMS
+    [Return]    ${status}
 
 mood Wait and Verify SMS
     [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
