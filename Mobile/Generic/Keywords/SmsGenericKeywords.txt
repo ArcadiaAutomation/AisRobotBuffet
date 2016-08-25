@@ -39,3 +39,8 @@ Clear All Unread SMS
     Run Keyword If    '${os}' == 'Android'    mood Clear All Unread SMS
     ...    ELSE IF    '${os}' == 'iOS'    Log To Console    Welcome iOS
     Comment    Log    Out Read All SMS
+
+Switch App
+    [Arguments]    ${AppName}
+    Run Keyword If    '${platformName}' == 'Android'    Switch App    ${AppName}    \    \    ${udid}
+    Run Keyword If    '${platformName}' == 'iOS'    ios Switch App    ${AppName}    \    \    ${udid}
