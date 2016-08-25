@@ -75,18 +75,17 @@ mood Clear All Unread SMS
     \    Aisappium Click Element    ${btnSmsBack}
     Log    End Clear SMS
 
-mood Verify SMS
+mood Wait and Verify SMS
     [Arguments]    ${PlatfromName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
     Wait SMS    ${PlatfromName}    ${TotalSMS}    ${lo_GeneralTimeOut}
     @{messages}=    Read SMS    ${PlatfromName}    ${SenderName}    ${TotalSMS}
     ${index}    Set Variable    0
-    :FOR    ${index}    IN RANGE    ${TotalSMS}
+    : FOR    ${index}    IN RANGE    ${TotalSMS}
     \    Log    ${index}
     \    ${MessageActual}    Set Variable    @{messages}[${index}]
-    \    Log    ${MessageActual}
-    \    Log    @{MessageExpect}[${index}]
     \    sleep    2
-    \    Run Keyword If    '@{MessageExpect}[${index}]'== '${MessageActual}'    Log To Console    Pass
+    \    Run Keyword If    '@{MessageExpect}[${index}]'== '${MessageActual}'    Log    Pass
+    \    ...    ELSE    Fail
     \    ${index}    Evaluate    ${index}+1
 
 Switch App

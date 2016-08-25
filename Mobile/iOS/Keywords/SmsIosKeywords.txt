@@ -16,3 +16,5 @@ ios Read SMS
     FAIL    Not Implement...
 
 ios Switch App
+
+ios Wait and Verify SMS
