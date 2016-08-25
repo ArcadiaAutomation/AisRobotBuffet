@@ -5,7 +5,7 @@ Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=Selenium
 *** Keywords ***
 Click Web Element
     [Arguments]    ${locator}
-    Wait Web Until Page Contains Element    ${locator}
+    Wait Until Element Is Visible    ${locator}    10
     Selenium2Library.Click Element    ${locator}
 
 Click Mobile Element
@@ -23,7 +23,7 @@ Click Mobile Button
 
 Input Web Text
     [Arguments]    ${locator}    ${text}
-    Wait Web Until Page Contains Element    ${locator}
+    Wait Until Element Is Visible    ${locator}    10
     Selenium2Library.Input Text    ${locator}    ${text}
 
 Input Mobile Text
@@ -49,9 +49,10 @@ Wait Mobile Until Page Contains Element
     AISAppiumEx.Wait Until Page Contains Element    ${locator}
 
 Get Web Text
-    [Arguments]    ${locator}
-    Wait Until Element Is Visible    ${locator}    10
-    Selenium2Library.Get Text    ${locator}
+    [Arguments]    ${locator}    ${timeout}=10
+    Wait Until Element Is Visible    ${locator}    ${timeout}
+    ${Text}    Selenium2Library.Get Text    ${locator}
+    [Return]    ${Text}
 
 Mobile Switch App
     [Arguments]    ${AppName}
