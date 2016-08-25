@@ -1,5 +1,5 @@
 *** Settings ***
-Library           AppiumLibrary
+Library           ../../../Library/Mobile/AISAppiumEx.py
 
 *** Keywords ***
 ios Wait SMS

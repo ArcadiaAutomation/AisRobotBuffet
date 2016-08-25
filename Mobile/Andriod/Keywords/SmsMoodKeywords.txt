@@ -64,11 +64,12 @@ mood Collect SMS Message
     [Return]    ${messages}
 
 mood Clear All Unread SMS
-    Log To Console    Clear SMS
-    @{unreadElements}    Aisappium Get Elements    ${fraUnreadFlag}
-    :FOR    ${eachUnread}    IN    @{unreadElements}
-    \    Log To Console    Unread detail: ${eachUnread}
+    Log    Clear SMS
+    @{unreadElements}    AISAppiumEx.Get Elements    ${fraUnreadFlag}
+    Log    @{unreadElements}
+    : FOR    ${eachUnread}    IN    @{unreadElements}
+    \    Log    Unread detail: ${eachUnread}
     \    Evaluate    '${eachUnread.click()}'
     \    Sleep    2
     \    Aisappium Click Element    ${btnSmsBack}
-    Log To Console    End Clear SMS
+    Log    End Clear SMS
