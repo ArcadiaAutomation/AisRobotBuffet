@@ -70,3 +70,8 @@ Web Element Text Should Be
     [Arguments]    ${locator}    ${text}
     Wait Until Element Is Visible    ${locator}    10
     Element Text Should Be    ${locator}    ${text}
+
+Select From Web List By Value
+    [Arguments]    ${locator}    ${Value}
+    Wait Until Element Is Visible    ${locator}
+    Select From List By Value    ${locator}    ${Value}
