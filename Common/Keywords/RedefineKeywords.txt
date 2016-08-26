@@ -75,3 +75,8 @@ Select From Web List By Value
     [Arguments]    ${locator}    ${Value}
     Wait Until Element Is Visible    ${locator}
     Select From List By Value    ${locator}    ${Value}
+
+Click Web Image
+    [Arguments]    ${locator}
+    Wait Until Element Is Visible    ${locator}
+    Click Image    ${locator}
