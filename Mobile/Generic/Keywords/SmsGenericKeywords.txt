@@ -41,11 +41,11 @@ Clear All Unread SMS
     Comment    Log    Out Read All SMS
 
 Switch App
-    [Arguments]    ${AppName}
+    [Arguments]    ${platformName}    ${AppName}
     Run Keyword If    '${platformName}' == 'Android'    Switch App    ${AppName}    \    \    ${udid}
     Run Keyword If    '${platformName}' == 'iOS'    ios Switch App    ${AppName}    \    \    ${udid}
 
 Wait and Verify SMS
-    [Arguments]    ${PlatfromName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
-    Run Keyword If    '${platformName}' == 'Android'    mood Wait and Verify SMS    ${PlatfromName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
-    Run Keyword If    '${platformName}' == 'iOS'    ios Wait and Verify SMS
+    [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
+    Run Keyword If    '${platformName}' == 'Android'    mood Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
+    Run Keyword If    '${platformName}' == 'iOS'    ios Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}

@@ -3,7 +3,7 @@ Library           Collections
 Resource          ../Repository/SmsMoodRepository.txt
 Library           ../../../Library/Mobile/AISAppiumEx.py
 Resource          ../../Generic/Keywords/SmsGenericKeywords.txt
-Resource          ../../../Common/Keywords/RedefineMultipleKeywords.txt
+Resource          ../../../Common/Keywords/RedefineKeywords.txt
 
 *** Keywords ***
 mood Wait SMS
@@ -76,9 +76,10 @@ mood Clear All Unread SMS
     Log    End Clear SMS
 
 mood Wait and Verify SMS
-    [Arguments]    ${PlatfromName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
-    Wait SMS    ${PlatfromName}    ${TotalSMS}    ${lo_GeneralTimeOut}
-    @{messages}=    Read SMS    ${PlatfromName}    ${SenderName}    ${TotalSMS}
+    [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
+    sleep    2
+    Wait SMS    ${platformName}    ${TotalSMS}    ${lo_GeneralTimeOut}
+    @{messages}=    Read SMS    ${platformName}    ${SenderName}    ${TotalSMS}
     ${index}    Set Variable    0
     : FOR    ${index}    IN RANGE    ${TotalSMS}
     \    Log    ${index}
