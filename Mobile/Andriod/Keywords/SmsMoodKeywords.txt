@@ -4,6 +4,7 @@ Resource          ../Repository/SmsMoodRepository.txt
 Library           ../../../Library/Mobile/AISAppiumEx.py
 Resource          ../../Generic/Keywords/SmsGenericKeywords.txt
 Resource          ../../../Common/Keywords/RedefineKeywords.txt
+Library           OperatingSystem
 
 *** Keywords ***
 mood Wait SMS
@@ -99,3 +100,18 @@ Switch App
     Press Keycode    187
     sleep    2
     Click Mobile Element    xpath=(//android.widget.TextView[@text='${AppName}'])
+
+mood Close SMS App
+    [Arguments]    ${platformName}    ${udid}
+    Log    In mood Close SMS App
+    sleep    2
+    Press Keycode    187
+    sleep    2
+    Click Mobile Element    xpath=(//android.widget.TextView[@text='mood'])
+    sleep    1
+    Close Application
+    sleep    1
+    ${command}=    Set Variable    adb -s ${udid} shell am kill com.calea.echo
+    Log    ${command}
+    ${rc}=    Run And Return Rc    ${command}
+    Log    ${rc}
