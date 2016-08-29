@@ -1,0 +1,11 @@
+*** Settings ***
+Library           ../../../Library/Mobile/AISAppiumEx.py
+Resource          ../../../Common/Keywords/RedefineKeywords.txt
+
+*** Keywords ***
+Switch App
+    [Arguments]    ${AppName}
+    sleep    2
+    Press Keycode    187
+    sleep    2
+    Click Mobile Element    xpath=(//android.widget.TextView[@text='${AppName}'])

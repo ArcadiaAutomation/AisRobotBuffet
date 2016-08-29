@@ -1,6 +1,7 @@
 *** Settings ***
 Resource          ../../Andriod/Keywords/SmsMoodKeywords.txt
 Resource          ../../iOS/Keywords/SmsIosKeywords.txt
+Resource          ../../Andriod/Keywords/GeneralFuntionKeywords.txt
 
 *** Keywords ***
 Wait SMS
