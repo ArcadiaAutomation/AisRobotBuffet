@@ -4,6 +4,7 @@ Resource          ../Repository/SmsMoodRepository.txt
 Library           ../../../Library/Mobile/AISAppiumEx.py
 Resource          ../../Generic/Keywords/SmsGenericKeywords.txt
 Resource          ../../../Common/Keywords/RedefineKeywords.txt
+Library           OperatingSystem
 
 *** Keywords ***
 mood Wait SMS
@@ -67,13 +68,17 @@ mood Collect SMS Message
 
 mood Clear All Unread SMS
     Log    Clear SMS
-    @{unreadElements}    Aisappium Get Elements    ${fraUnreadFlag}
+    ${status} =    Run Keyword And Return Status    Get Elements    ${fraUnreadFlag}    ${fraUnreadFlag}
+    Return From Keyword If    '${status}'== 'False'    ${status}
+    @{unreadElements}=    Get Elements    ${fraUnreadFlag}
+    Comment    @{unreadElements}=    Get Elements    ${fraUnreadFlag}
     : FOR    ${eachUnread}    IN    @{unreadElements}
     \    Log To Console    Unread detail: ${eachUnread}
     \    Evaluate    '${eachUnread.click()}'
     \    Sleep    2
     \    Aisappium Click Element    ${btnSmsBack}
     Log    End Clear SMS
+    [Return]    ${status}
 
 mood Wait and Verify SMS
     [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
@@ -88,3 +93,28 @@ mood Wait and Verify SMS
     \    Run Keyword If    '@{MessageExpect}[${index}]'== '${MessageActual}'    Log    Pass
     \    ...    ELSE    Fail
     \    ${index}    Evaluate    ${index}+1
+<<<<<<< HEAD
+=======
+
+Switch App
+    [Arguments]    ${AppName}
+    sleep    2
+    Press Keycode    187
+    sleep    2
+    Click Mobile Element    xpath=(//android.widget.TextView[@text='${AppName}'])
+
+mood Close SMS App
+    [Arguments]    ${platformName}    ${udid}
+    Log    In mood Close SMS App
+    sleep    2
+    Press Keycode    187
+    sleep    2
+    Click Mobile Element    xpath=(//android.widget.TextView[@text='mood'])
+    sleep    1
+    Close Application
+    sleep    1
+    ${command}=    Set Variable    adb -s ${udid} shell am kill com.calea.echo
+    Log    ${command}
+    ${rc}=    Run And Return Rc    ${command}
+    Log    ${rc}
+>>>>>>> origin/master

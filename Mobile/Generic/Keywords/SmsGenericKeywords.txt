@@ -50,3 +50,8 @@ Wait and Verify SMS
     [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
     Run Keyword If    '${platformName}' == 'Android'    mood Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
     Run Keyword If    '${platformName}' == 'iOS'    ios Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
+
+Close SMS App
+    [Arguments]    ${platformName}    ${udid}
+    Run Keyword If    '${platformName}' == 'Android'    mood Close SMS App    ${platformName}    ${udid}
+    Run Keyword If    '${platformName}' == 'iOS'    FAIL    Not Implement
