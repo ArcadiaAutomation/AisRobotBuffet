@@ -3,9 +3,10 @@ Library           ../../../Library/Mobile/AISAppiumEx.py
 Resource          ../../../Common/Keywords/RedefineKeywords.txt
 
 *** Keywords ***
-Switch App
+Android Switch App
     [Arguments]    ${AppName}
     sleep    2
     Press Keycode    187
     sleep    2
+    Wait Mobile Until Page Contains Element    xpath=(//android.widget.TextView[@text='${AppName}'])
     Click Mobile Element    xpath=(//android.widget.TextView[@text='${AppName}'])

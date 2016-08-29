@@ -15,6 +15,4 @@ ios Read SMS
     [Arguments]    ${sender}    ${totalSms}
     FAIL    Not Implement...
 
-ios Switch App
-
 ios Wait and Verify SMS

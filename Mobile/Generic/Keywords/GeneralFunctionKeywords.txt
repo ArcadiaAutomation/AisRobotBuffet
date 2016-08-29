@@ -1,0 +1,10 @@
+*** Settings ***
+Resource          ../../Andriod/Keywords/GeneralFunctionKeywords.txt
+Resource          ../../iOS/Keywords/iosGeneralFunctionKeywords.txt
+
+*** Keywords ***
+Switch App
+    [Arguments]    ${platformName}    ${AppName}
+    [Documentation]    App Name is Sensitive Case
+    Run Keyword If    '${platformName}' == 'Android'    Android Switch App    ${AppName}
+    Run Keyword If    '${platformName}' == 'iOS'    ios Switch App    ${AppName}
