@@ -42,7 +42,7 @@ Web Element Should Be Enabled
 
 Wait Web Until Page Contains Element
     [Arguments]    ${locator}
-    Selenium2Library.Wait Until Page Contains Element    ${locator}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    20
 
 Wait Mobile Until Page Contains Element
     [Arguments]    ${locator}
