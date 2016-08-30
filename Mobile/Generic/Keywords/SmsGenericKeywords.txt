@@ -41,9 +41,16 @@ Clear All Unread SMS
     Comment    Log    Out Read All SMS
 
 Wait and Verify SMS
-    [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
-    Run Keyword If    '${platformName}' == 'Android'    mood Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
-    Run Keyword If    '${platformName}' == 'iOS'    ios Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
+    [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    ${MessageExpect}    ${Timeout}=10
+    [Documentation]    You must Create List for send List to ${MessageExpect}
+    ...    EX
+    ...    @{MessageExpect}	\ \ \ \ \ Create List	${MessageOne} \ \ \ \ ${MessageTwo}
+    ...
+    ...    Wait and Verify SMS \ \ \ \ \ \ ${virtual_3PO_2_Platfrom_Name} \ \ \ \ \ \ 1	\ \ ${SenderName}	\ \ \ \ @{MessageExpect} \ \ \ \ \ 15
+    Run Keyword If    '${platformName}' == 'Android'    mood Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    ${MessageExpect}
+    ...    ${Timeout}
+    Run Keyword If    '${platformName}' == 'iOS'    ios Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    ${MessageExpect}
+    ...    ${Timeout}
 
 Close SMS App
     [Arguments]    ${platformName}    ${udid}

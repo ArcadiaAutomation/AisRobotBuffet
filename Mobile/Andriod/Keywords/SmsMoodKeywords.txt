@@ -81,9 +81,10 @@ mood Clear All Unread SMS
     [Return]    ${status}
 
 mood Wait and Verify SMS
-    [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    @{MessageExpect}
+    [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    ${MessageExpect}    ${Timeout}
+    [Documentation]    You must Create List for send List to ${MessageExpect}
     sleep    2
-    Wait SMS    ${platformName}    ${TotalSMS}    ${lo_GeneralTimeOut}
+    Wait SMS    ${platformName}    ${TotalSMS}    ${Timeout}
     @{messages}=    Read SMS    ${platformName}    ${SenderName}    ${TotalSMS}
     ${index}    Set Variable    0
     : FOR    ${index}    IN RANGE    ${TotalSMS}
@@ -108,3 +109,5 @@ mood Close SMS App
     Log    ${command}
     ${rc}=    Run And Return Rc    ${command}
     Log    ${rc}
+
+Message Expect for Verify
