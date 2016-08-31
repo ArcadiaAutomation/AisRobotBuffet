@@ -9,11 +9,11 @@ Library           OperatingSystem
 *** Keywords ***
 mood Wait SMS
     [Arguments]    ${totalSms}    ${timeout}    ${sender}
-    Comment    Log    In mood Wait SMS
+    Log    In mood Wait SMS
     ${timeout}=    Convert To Integer    ${timeout}
     Run Keyword If    ${sender}==all    Wait Until Keyword Succeeds    ${timeout} s    1 s    mood Wait SMS All Sender    ${totalSms}
     Run Keyword If    ${sender}!=all    FAIL    Not implement specific sender...
-    Comment    Log    Out mood Wait SMS
+    Log    Out mood Wait SMS
 
 mood Open SMS App
     [Arguments]    ${remoteUrl}    ${platformName}    ${platformVersion}    ${udid}
@@ -80,21 +80,6 @@ mood Clear All Unread SMS
     Log    End Clear SMS
     [Return]    ${status}
 
-mood Wait and Verify SMS
-    [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    ${MessageExpect}    ${Timeout}
-    [Documentation]    You must Create List for send List to ${MessageExpect}
-    sleep    2
-    Wait SMS    ${platformName}    ${TotalSMS}    ${Timeout}
-    @{messages}=    Read SMS    ${platformName}    ${SenderName}    ${TotalSMS}
-    ${index}    Set Variable    0
-    : FOR    ${index}    IN RANGE    ${TotalSMS}
-    \    Log    ${index}
-    \    ${MessageActual}    Set Variable    @{messages}[${index}]
-    \    sleep    2
-    \    Run Keyword If    '@{MessageExpect}[${index}]'== '${MessageActual}'    Log    Pass
-    \    ...    ELSE    Fail
-    \    ${index}    Evaluate    ${index}+1
-
 mood Close SMS App
     [Arguments]    ${platformName}    ${udid}
     Log    In mood Close SMS App
@@ -109,5 +94,3 @@ mood Close SMS App
     Log    ${command}
     ${rc}=    Run And Return Rc    ${command}
     Log    ${rc}
-
-Message Expect for Verify
