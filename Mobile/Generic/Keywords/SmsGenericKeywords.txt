@@ -68,6 +68,8 @@ Verify SMS
     ${indexOfActual}    Set Variable    0
     ${result}    Evaluate    ${TotalSMS}-1
     : FOR    ${indexOfActual}    IN RANGE    ${TotalSMS}
+    \    Log    @{MessageExpect}[${indexOfExpect}]
+    \    Log    @{messages}[${indexOfActual}]
     \    Run Keyword If    '@{MessageExpect}[${indexOfExpect}]'== '@{messages}[${indexOfActual}]'    Exit For Loop
+    \    Run Keyword If    ${indexOfActual}==${result}    Fail    Message did not match...
     \    ${indexOfActual}    Evaluate    ${indexOfActual}+1
-    \    Run Keyword If    ${indexOfActual}==${result}    Fail
