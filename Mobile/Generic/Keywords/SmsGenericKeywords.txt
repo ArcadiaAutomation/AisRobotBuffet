@@ -66,6 +66,8 @@ Close SMS App
 Verify SMS
     [Arguments]    ${TotalSMS}    ${messages}    ${indexOfExpect}    ${MessageExpect}
     ${indexOfActual}    Set Variable    0
+    ${result}    Evaluate    ${TotalSMS}-1
     : FOR    ${indexOfActual}    IN RANGE    ${TotalSMS}
     \    Run Keyword If    '@{MessageExpect}[${indexOfExpect}]'== '@{messages}[${indexOfActual}]'    Exit For Loop
     \    ${indexOfActual}    Evaluate    ${indexOfActual}+1
+    \    Run Keyword If    ${indexOfActual}==${result}    Fail
