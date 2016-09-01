@@ -41,12 +41,12 @@ Clear All Unread SMS
     Comment    Log    Out Read All SMS
 
 Wait and Verify SMS
-    [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    ${MessageExpect}    ${Timeout}=10
+    [Arguments]    ${platformName}    ${platformSN}    ${TotalSMS}    ${SenderName}    ${MessageExpect}    ${Timeout}=10
     [Documentation]    You must Create List for send List to ${MessageExpect}
     ...    EX
     ...    @{MessageExpect} \ \ \ \ \ Create List ${MessageOne} \ \ \ \ ${MessageTwo}
     ...
-    ...    Wait and Verify SMS \ \ \ \ \ \ ${virtual_3PO_2_Platfrom_Name} \ \ \ \ \ \ 1 \ \ ${SenderName} \ \ \ \ @{MessageExpect} \ \ \ \ \ 15
+    ...    Wait and Verify SMS \ \ \ \ \ \ ${virtual_3PO_2_Platfrom_Name} \ \ \ \ \ \ ${virtual_3PO_2_Platfrom_SM} \ \ \ \ \ \ 1 \ \ ${SenderName} \ \ \ \ @{MessageExpect} \ \ \ \ \ 15
     Log    In Wait and Verify SMS
     sleep    2
     Wait SMS    ${platformName}    ${TotalSMS}    ${Timeout}
@@ -56,6 +56,7 @@ Wait and Verify SMS
     : FOR    ${indexOfExpect}    IN RANGE    ${lengthOfMsgExpect}
     \    Verify SMS    ${TotalSMS}    ${messages}    ${indexOfExpect}    ${MessageExpect}
     \    ${indexOfExpect}    Evaluate    ${indexOfExpect}+1
+    Close SMS App    ${platformName}    ${platformSN}
     Log    Out Wait and Verify SMS
 
 Close SMS App
