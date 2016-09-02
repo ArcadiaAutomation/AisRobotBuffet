@@ -5,8 +5,8 @@ Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=Selenium
 *** Keywords ***
 Click Web Element
     [Arguments]    ${locator}
-    Selenium2Library.Wait Until Page Contains Element    ${locator}
-    Comment    Wait Until Element Is Visible    ${locator}    10
+    Comment    Selenium2Library.Wait Until Element Contains    ${locator}    10
+    Wait Until Element Is Visible    ${locator}    10
     Selenium2Library.Click Element    ${locator}
 
 Click Mobile Element
