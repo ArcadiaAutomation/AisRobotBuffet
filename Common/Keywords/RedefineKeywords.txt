@@ -5,9 +5,10 @@ Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=Selenium
 *** Keywords ***
 Click Web Element
     [Arguments]    ${locator}
-    Comment    Selenium2Library.Wait Until Element Contains    ${locator}    10
-    Wait Until Element Is Visible    ${locator}    10
-    Selenium2Library.Click Element    ${locator}
+    ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
+    Log To Console    ${result}
+    Run Keyword If    '${result}'=='False'    Click Web By Wait Web Until Page Contains Element
+    ...    ELSE    Selenium2Library.Click Element    ${locator}
 
 Click Mobile Element
     [Arguments]    ${locator}
@@ -43,7 +44,7 @@ Web Element Should Be Enabled
 
 Wait Web Until Page Contains Element
     [Arguments]    ${locator}
-    Selenium2Library.Wait Until Page Contains Element    ${locator}    20
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
 
 Wait Mobile Until Page Contains Element
     [Arguments]    ${locator}
@@ -81,3 +82,8 @@ Click Web Image
     [Arguments]    ${locator}
     Wait Until Element Is Visible    ${locator}
     Click Image    ${locator}
+
+Click Web By Wait Web Until Page Contains Element
+    [Arguments]    ${locator}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
+    Selenium2Library.Click Element    ${locator}
