@@ -6,7 +6,7 @@ Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=Selenium
 Click Web Element
     [Arguments]    ${locator}
     ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
-    Log To Console    ${result}
+    Comment    Log To Console    ${result}
     Run Keyword If    '${result}'=='False'    Click Web By Wait Web Until Page Contains Element    ${locator}
     ...    ELSE    Selenium2Library.Click Element    ${locator}
 
