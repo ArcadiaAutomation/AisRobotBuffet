@@ -103,7 +103,7 @@ mood Close SMS App
     sleep    2
     Click Mobile Element    xpath=(//android.widget.TextView[@text='mood'])
     sleep    1
-    Close Application
+    close application
     sleep    1
     ${command}=    Set Variable    adb -s ${udid} shell am kill com.calea.echo
     Log    ${command}
