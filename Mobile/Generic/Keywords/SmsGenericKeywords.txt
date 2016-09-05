@@ -61,7 +61,7 @@ Wait and Verify SMS
 
 Close SMS App
     [Arguments]    ${platformName}    ${udid}
-    Run Keyword If    '${platformName}' == 'Android'    mood Close SMS App    ${platformName}    ${udid}    ${AtlasInfo}
+    Run Keyword If    '${platformName}' == 'Android'    mood Close SMS App    ${platformName}    ${udid}
     Run Keyword If    '${platformName}' == 'iOS'    FAIL    Not Implement
 
 Verify SMS
