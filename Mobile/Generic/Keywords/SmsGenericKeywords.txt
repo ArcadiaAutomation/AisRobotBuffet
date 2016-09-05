@@ -41,18 +41,36 @@ Clear All Unread SMS
     Comment    Log    Out Read All SMS
 
 Wait and Verify SMS
-    [Arguments]    ${platformName}    ${TotalSMS}    ${SenderName}    ${MessageExpect}    ${Timeout}=10
+    [Arguments]    ${platformName}    ${platformSN}    ${TotalSMS}    ${SenderName}    ${MessageExpect}    ${Timeout}=10
     [Documentation]    You must Create List for send List to ${MessageExpect}
     ...    EX
     ...    @{MessageExpect} \ \ \ \ \ Create List ${MessageOne} \ \ \ \ ${MessageTwo}
     ...
-    ...    Wait and Verify SMS \ \ \ \ \ \ ${virtual_3PO_2_Platfrom_Name} \ \ \ \ \ \ 1 \ \ ${SenderName} \ \ \ \ @{MessageExpect} \ \ \ \ \ 15
-    Run Keyword If    '${platformName}' == 'Android'    mood Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    ${MessageExpect}
-    ...    ${Timeout}
-    Run Keyword If    '${platformName}' == 'iOS'    ios Wait and Verify SMS    ${platformName}    ${TotalSMS}    ${SenderName}    ${MessageExpect}
-    ...    ${Timeout}
+    ...    Wait and Verify SMS \ \ \ \ \ \ ${virtual_3PO_2_Platfrom_Name} \ \ \ \ \ \ ${virtual_3PO_2_Platfrom_SN} \ \ \ \ \ \ 1 \ \ ${SenderName} \ \ \ \ @{MessageExpect} \ \ \ \ \ 15
+    Log    In Wait and Verify SMS
+    sleep    2
+    Wait SMS    ${platformName}    ${TotalSMS}    ${Timeout}
+    @{messages}=    Read SMS    ${platformName}    ${SenderName}    ${TotalSMS}
+    ${lengthOfMsgExpect}    Get Length    ${MessageExpect}
+    ${indexOfExpect}    Set Variable    0
+    : FOR    ${indexOfExpect}    IN RANGE    ${lengthOfMsgExpect}
+    \    Verify SMS    ${TotalSMS}    ${messages}    ${indexOfExpect}    ${MessageExpect}
+    \    ${indexOfExpect}    Evaluate    ${indexOfExpect}+1
+    Close SMS App    ${platformName}    ${platformSN}
+    Log    Out Wait and Verify SMS
 
 Close SMS App
     [Arguments]    ${platformName}    ${udid}    ${AtlasInfo}
     Run Keyword If    '${platformName}' == 'Android'    mood Close SMS App    ${platformName}    ${udid}    ${AtlasInfo}
     Run Keyword If    '${platformName}' == 'iOS'    FAIL    Not Implement
+
+Verify SMS
+    [Arguments]    ${TotalSMS}    ${messages}    ${indexOfExpect}    ${MessageExpect}
+    ${indexOfActual}    Set Variable    0
+    ${result}    Evaluate    ${TotalSMS}-1
+    : FOR    ${indexOfActual}    IN RANGE    ${TotalSMS}
+    \    Log    @{MessageExpect}[${indexOfExpect}]
+    \    Log    @{messages}[${indexOfActual}]
+    \    Run Keyword If    '@{MessageExpect}[${indexOfExpect}]'== '@{messages}[${indexOfActual}]'    Exit For Loop
+    \    Run Keyword If    ${indexOfActual}==${result}    Fail    Message did not match...
+    \    ${indexOfActual}    Evaluate    ${indexOfActual}+1
