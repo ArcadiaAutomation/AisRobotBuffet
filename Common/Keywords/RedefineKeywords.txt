@@ -89,3 +89,8 @@ Click Web By Wait Web Until Page Contains Element
     Selenium2Library.Wait Until Page Contains Element    ${locator}    10
     Log To Console    ${locator}
     Selenium2Library.Click Element    ${locator}
+
+Select From Web List By Label
+    [Arguments]    ${locator}    ${label}
+    Wait Until Element Is Visible    ${locator}
+    Select From List By Label    ${locator}    ${label}
