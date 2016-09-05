@@ -60,7 +60,7 @@ Wait and Verify SMS
     Log    Out Wait and Verify SMS
 
 Close SMS App
-    [Arguments]    ${platformName}    ${udid}    ${AtlasInfo}
+    [Arguments]    ${platformName}    ${udid}
     Run Keyword If    '${platformName}' == 'Android'    mood Close SMS App    ${platformName}    ${udid}    ${AtlasInfo}
     Run Keyword If    '${platformName}' == 'iOS'    FAIL    Not Implement
 
