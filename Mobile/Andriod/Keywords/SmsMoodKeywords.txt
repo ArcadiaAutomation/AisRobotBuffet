@@ -44,6 +44,7 @@ mood Read SMS
     \    @{messages}=    Run Keyword If    '${senderName}' == '${sender}'    mood Collect SMS Message    ${senderNameElement}    ${totalSms}
     \    Run Keyword If    @{messages} != @{emptyList}    Exit For Loop
     Run Keyword If    @{messages} == @{emptyList}    FAIL    Not found sender to read SMS
+    Press Keycode    4
     Log    Out Mood Read SMS
     [Return]    ${messages}
 
