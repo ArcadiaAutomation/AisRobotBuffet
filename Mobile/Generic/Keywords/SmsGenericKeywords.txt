@@ -46,7 +46,7 @@ Wait and Verify SMS
     ...    EX
     ...    @{MessageExpect} \ \ \ \ \ Create List ${MessageOne} \ \ \ \ ${MessageTwo}
     ...
-    ...    Wait and Verify SMS \ \ \ \ \ \ ${virtual_3PO_2_Platfrom_Name} \ \ \ \ \ \ ${virtual_3PO_2_Platfrom_SN} \ \ \ \ \ \ 1 \ \ ${SenderName} \ \ \ \ @{MessageExpect} \ \ \ \ \ 15
+    ...    Wait and Verify SMS | ${virtual_3PO_2_Platfrom_Name}| ${virtual_3PO_2_Platfrom_SN} |1 | ${SenderName} | @{MessageExpect} |15
     Log    In Wait and Verify SMS
     sleep    2
     Wait SMS    ${platformName}    ${TotalSMS}    ${Timeout}

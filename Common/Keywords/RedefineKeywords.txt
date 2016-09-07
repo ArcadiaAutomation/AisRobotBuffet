@@ -6,9 +6,9 @@ Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=Selenium
 Click Web Element
     [Arguments]    ${locator}
     ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
-    Log To Console    ${result}
-    Log To Console    ${locator} from click web element
-    Run Keyword If    '${result}'=='False'    Click Web By Wait Web Until Page Contains Element    ${locator}
+    Comment    Log To Console    ${result}
+    Comment    Log To Console    ${locator} from click web element
+    Run Keyword If    '${result}'=='False'    Click Web Element By Wait Web Until Page Contains Element    ${locator}
     ...    ELSE    Selenium2Library.Click Element    ${locator}
 
 Click Mobile Element
@@ -17,8 +17,11 @@ Click Mobile Element
 
 Click Web Button
     [Arguments]    ${locator}
-    Wait Until Element Is Visible    ${locator}    10
-    Selenium2Library.Click Button    ${locator}
+    ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
+    Comment    Log To Console    ${result}
+    Comment    Log To Console    ${locator} from Click Web Button
+    Run Keyword If    '${result}'=='False'    Click Web Button By Wait Web Until Page Contains Element    ${locator}
+    ...    ELSE    Selenium2Library.Click Button    ${locator}
 
 Click Mobile Button
     [Arguments]    ${index_or_name}
@@ -26,8 +29,11 @@ Click Mobile Button
 
 Input Web Text
     [Arguments]    ${locator}    ${text}
-    Wait Until Element Is Visible    ${locator}    10
-    Selenium2Library.Input Text    ${locator}    ${text}
+    ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
+    Log To Console    ${result}
+    Log To Console    ${locator} from Input Web Text
+    Run Keyword If    '${result}'=='False'    Input Web Text By Wait Web Until Page Contains Element    ${locator}    ${text}
+    ...    ELSE    Selenium2Library.Input Text    ${locator}    ${text}
 
 Input Mobile Text
     [Arguments]    ${locator}    ${text}
@@ -53,8 +59,11 @@ Wait Mobile Until Page Contains Element
 
 Get Web Text
     [Arguments]    ${locator}    ${timeout}=10
-    Wait Until Element Is Visible    ${locator}    ${timeout}
-    ${Text}    Selenium2Library.Get Text    ${locator}
+    ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
+    Log To Console    ${result}
+    Log To Console    ${locator} from Get Web Text
+    ${Text}    Run Keyword If    '${result}'=='False'    Get Web Text By Wait Web Until Page Contains Element    ${locator}
+    ...    ELSE    Get Web Text By Wait Until Element Is Visible    ${locator}
     [Return]    ${Text}
 
 Mobile Switch App
@@ -81,11 +90,43 @@ Select From Web List By Value
 
 Click Web Image
     [Arguments]    ${locator}
-    Wait Until Element Is Visible    ${locator}
-    Click Image    ${locator}
+    ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
+    Log To Console    ${result}
+    Log To Console    ${locator} from click Image
+    Run Keyword If    '${result}'=='False'    Click Image By Wait Web Until Page Contains Element    ${locator}
+    ...    ELSE    Click Image    ${locator}
 
-Click Web By Wait Web Until Page Contains Element
+Click Web Element By Wait Web Until Page Contains Element
     [Arguments]    ${locator}
     Selenium2Library.Wait Until Page Contains Element    ${locator}    10
     Log To Console    ${locator}
     Selenium2Library.Click Element    ${locator}
+
+Click Web Button By Wait Web Until Page Contains Element
+    [Arguments]    ${locator}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
+    Log To Console    ${locator}
+    Selenium2Library.Click Button    ${locator}
+
+Input Web Text By Wait Web Until Page Contains Element
+    [Arguments]    ${locator}    ${text}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
+    Log To Console    ${locator}
+    Selenium2Library.Input Text    ${locator}    ${text}
+
+Get Web Text By Wait Web Until Page Contains Element
+    [Arguments]    ${locator}    ${timeout}=10
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    ${timeout}
+    ${Text}    Selenium2Library.Get Text    ${locator}
+    [Return]    ${Text}
+
+Get Web Text By Wait Until Element Is Visible
+    [Arguments]    ${locator}    ${timeout}=10
+    Selenium2Library.Wait Until Element Is Visible    ${locator}    ${timeout}
+    ${Text}    Selenium2Library.Get Text    ${locator}
+    [Return]    ${Text}
+
+Click Image By Wait Web Until Page Contains Element
+    [Arguments]    ${locator}
+    Selenium2Library.Wait Until Page Contains Element    ${locator}    10
+    Click Image    ${locator}
