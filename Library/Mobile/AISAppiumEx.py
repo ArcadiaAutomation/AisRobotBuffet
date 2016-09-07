@@ -1,8 +1,10 @@
 import ast
+from audioop import alaw2lin
+
 from AppiumLibrary import AppiumLibrary
 from appium import webdriver
 from AtlasInfo import AtlasInfo
-
+from robot.utils import ConnectionCache
 
 # create new class that inherits from AppiumLibrary
 class AISAppiumEx(AppiumLibrary):
@@ -27,6 +29,21 @@ class AISAppiumEx(AppiumLibrary):
         driver = self._current_application()
         oAppiumInfo = AtlasInfo(index, alias, driver, remote_url)
         return oAppiumInfo
+
+    def aisappium_close_application(self, oAppiumInfo=None):
+        """set current session Appium.
+        |oAppiumInfo=${AppInfo}|
+        """
+        # self._cache.current = oAppiumInfo.driver
+        # self._debug('Closing application with session id %s' % self._current_application().session_id)
+        # self._cache.close()
+        application = oAppiumInfo.driver
+        application.quit()
+        # self._cache.empty_cache()
+        # noCurrent = ConnectionCache('No open connection.')
+        # self._cache.current = noCurrent.get_nocurrent()
+        # self._cache.current_index = None
+        # self._cache._closed.add(application)
 
     def aisappium_click_element(self, locator, oAppiumInfo=None):
         """Click element on mobile.

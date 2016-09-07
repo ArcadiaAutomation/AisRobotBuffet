@@ -1,6 +1,6 @@
 *** Settings ***
 Library           Selenium2Library    run_on_failure=Selenium2Library.Capture Page Screenshot
-Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=Selenium2Library.Capture Page Screenshot
+Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=AISAppiumEX.Capture Page Screenshot
 
 *** Keywords ***
 Click Web Element
@@ -130,3 +130,8 @@ Click Image By Wait Web Until Page Contains Element
     [Arguments]    ${locator}
     Selenium2Library.Wait Until Page Contains Element    ${locator}    10
     Click Image    ${locator}
+
+Select From Web List By Label
+    [Arguments]    ${locator}    ${label}
+    Wait Until Element Is Visible    ${locator}
+    Select From List By Label    ${locator}    ${label}
