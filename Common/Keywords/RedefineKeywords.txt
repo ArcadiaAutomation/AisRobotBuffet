@@ -30,8 +30,8 @@ Click Mobile Button
 Input Web Text
     [Arguments]    ${locator}    ${text}
     ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
-    Log To Console    ${result}
-    Log To Console    ${locator} from Input Web Text
+    Comment    Log To Console    ${result}
+    Comment    Log To Console    ${locator} from Input Web Text
     Run Keyword If    '${result}'=='False'    Input Web Text By Wait Web Until Page Contains Element    ${locator}    ${text}
     ...    ELSE    Selenium2Library.Input Text    ${locator}    ${text}
 
@@ -60,8 +60,8 @@ Wait Mobile Until Page Contains Element
 Get Web Text
     [Arguments]    ${locator}    ${timeout}=10
     ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
-    Log To Console    ${result}
-    Log To Console    ${locator} from Get Web Text
+    Comment    Log To Console    ${result}
+    Comment    Log To Console    ${locator} from Get Web Text
     ${Text}    Run Keyword If    '${result}'=='False'    Get Web Text By Wait Web Until Page Contains Element    ${locator}
     ...    ELSE    Get Web Text By Wait Until Element Is Visible    ${locator}
     [Return]    ${Text}
@@ -91,8 +91,8 @@ Select From Web List By Value
 Click Web Image
     [Arguments]    ${locator}
     ${result}    Run Keyword And Return Status    Selenium2Library.Wait Until Element Is Visible    ${locator}    10
-    Log To Console    ${result}
-    Log To Console    ${locator} from click Image
+    Comment    Log To Console    ${result}
+    Comment    Log To Console    ${locator} from click Image
     Run Keyword If    '${result}'=='False'    Click Image By Wait Web Until Page Contains Element    ${locator}
     ...    ELSE    Click Image    ${locator}
 
