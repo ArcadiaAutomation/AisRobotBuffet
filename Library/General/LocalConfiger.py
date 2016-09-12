@@ -6,6 +6,8 @@ from FileLock import FileLock
 # define constant
 DEVICE_NAME = '#device_name'
 TIMESTAMP = '#timestamp'
+INCLUDE = 'include'
+EXCLUDE = 'exclude'
 
 
 class State(object):
@@ -31,24 +33,23 @@ class LocalConfiger:
             tree.write(config_file)
 
     @staticmethod
-    def take_virtual_local_config(config_file, key_tag):
+    def take_virtual_local_config(config_file, key_name, key_tag):
         # type: (basestring, basestring) -> dictionary
         result = None
         with FileLock(config_file):
             tree = ElementTree.parse(config_file)
             root = tree.getroot()
             for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
-
                 # Check device is tag is support key
                 if not LocalConfiger.__check_key_is_match_in_support_tag(device, key_tag):
-                    print('Device ' + device.get('name') + ' is not tag support ' + key_tag + ' continue')
+                    print('Device ' + device.get('name') + ' is not support tags and will continue next device.')
                     continue
 
                 # Mark timestamp
                 device.set('timestamp', str(datetime.datetime.utcnow()))
 
                 # Create virtual local config data
-                result = LocalConfiger.__create_virtual_local_config_dictionary(device, key_tag)
+                result = LocalConfiger.__create_virtual_local_config_dictionary(device, key_name)
 
                 # Mark sate to Busy
                 device.set('state', State.BUSY)
@@ -63,15 +64,38 @@ class LocalConfiger:
         raise Exception('All busy or not support.')
 
     @staticmethod
-    def __check_key_is_match_in_support_tag(device, key):
+    def __check_key_is_match_in_support_tag(device, filters):
         pass
+        print "filters : " + str(len(filters))
+        if len(filters) == 0:
+            print "Not found filter will get first device normal state. "
+        tags_in_xml = {}
         tags = device.find('tags')
         for eachTag in tags.findall('tag'):
-            if eachTag.text == key:
-                print (key + ' tag is support')
-                return True
+            key = eachTag.text
+            value = None
+            tags_in_xml.update({key: value})
 
-        return False
+        for each_filter in filters:
+            # if each filter is include
+            if filters.get(each_filter) == INCLUDE:
+                # check is must in tags_in_xml if not reject
+                if each_filter not in tags_in_xml:
+                    return False
+
+            # else if each filter is exclude
+            elif filters.get(each_filter) == EXCLUDE:
+                # check is must be not in tags_in_xml if not reject
+                if each_filter in tags_in_xml:
+                    return False
+
+            # else
+            else:
+                # filter not support throw error
+                raise Exception('Not support filter ' + filters.get(each_filter))
+
+        # All condition is passed.
+        return True
 
     @staticmethod
     def __create_virtual_local_config_dictionary(device, key):
