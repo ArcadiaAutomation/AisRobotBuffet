@@ -68,7 +68,7 @@ class LocalConfiger:
         pass
         print "filters : " + str(len(filters))
         if len(filters) == 0:
-            raise Exception ('Not found tag filter.')
+            raise Exception('Not found tag filter.')
         tags_in_xml = {}
         tags = device.find('tags')
         for eachTag in tags.findall('tag'):
