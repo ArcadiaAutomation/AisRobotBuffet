@@ -46,7 +46,7 @@ class LocalConfiger:
                     continue
 
                 # Mark timestamp
-                device.set('timestamp', str(datetime.datetime.utcnow()))
+                device.set('timestamp', str(datetime.utcnow()))
 
                 # Create virtual local config data
                 result = LocalConfiger.__create_virtual_local_config_dictionary(device, key_name)
