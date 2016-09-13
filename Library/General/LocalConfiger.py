@@ -1,5 +1,5 @@
-import datetime
 import xml.etree.ElementTree as ElementTree
+from DateTime import datetime
 from FileLock import FileLock
 
 
