@@ -1,6 +1,7 @@
 *** Settings ***
 Library           Selenium2Library    run_on_failure=Selenium2Library.Capture Page Screenshot
 Library           ../../Library/Mobile/AISAppiumEx.py    run_on_failure=AISAppiumEX.Capture Page Screenshot
+Library           ../../Library/General/WebManeger.py
 
 *** Keywords ***
 Click Web Element
@@ -141,3 +142,10 @@ Select From Web List
     [Arguments]    ${locator}    ${text}    ${timeout}=${lo_general_timeout}
     Wait Until Element Is Visible    ${locator}    ${timeout}
     Select From List    ${locator}    ${text}
+
+Start Browser
+    [Arguments]    ${url}    ${Browser}    ${ipSelenium}
+    ${options}=    SetChromeOption
+    Open Browser    chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png    ${Browser}    remote_url=${ipSelenium}    desired_capabilities=${options}
+    Execute Javascript    localStorage.setItem('profiles', JSON.stringify([{title: 'Selenium', hideComment: true, appendMode: '',headers: [{enabled: true, name: 'X-Forwarded-For', value: '10.239.223.84', comment: ''}],respHeaders: [],filters: []}]));
+    Go To    ${url}
