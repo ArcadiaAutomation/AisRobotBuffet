@@ -23,16 +23,22 @@ class LocalConfiger:
 
     @staticmethod
     def release_virtual_local_config(config_file, device_name, timestamp):
-        with FileLock(config_file):
-            tree = ElementTree.parse(config_file)
-            root = tree.getroot()
-            device = root.find('.//device[@name="' + device_name + '"]')
-            if timestamp != device.get('timestamp'):
-                # Will can not change state because this locked by another.
-                print('timestamp not valid to release device ' + device_name)
-                return
-            device.set('state', State.NORMAL)
-            tree.write(config_file)
+        lock = FileLock(config_file)
+        try:
+            with FileLock(config_file):
+                tree = ElementTree.parse(config_file)
+                root = tree.getroot()
+                device = root.find('.//device[@name="' + device_name + '"]')
+                if timestamp != device.get('timestamp'):
+                    # Will can not change state because this locked by another.
+                    print('timestamp not valid to release device ' + device_name)
+                    return
+                device.set('state', State.NORMAL)
+                tree.write(config_file)
+
+        finally:
+            if os.path.isfile(config_file + ".lock"):
+                lock.release()
 
     @staticmethod
     def take_virtual_local_config(config_file, key_name, key_tag):
