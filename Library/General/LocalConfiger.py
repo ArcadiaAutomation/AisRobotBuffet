@@ -36,30 +36,36 @@ class LocalConfiger:
     def take_virtual_local_config(config_file, key_name, key_tag):
         # type: (basestring, basestring) -> dictionary
         result = None
-        with FileLock(config_file):
-            tree = ElementTree.parse(config_file)
-            root = tree.getroot()
-            for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
-                # Check device is tag is support key
-                if not LocalConfiger.__check_key_is_match_in_support_tag(device, key_tag):
-                    print('Device ' + device.get('name') + ' is not support tags and will continue next device.')
-                    continue
+        lock = FileLock(config_file)
+        try:
 
-                # Mark timestamp
-                device.set('timestamp', str(datetime.utcnow()))
+            with lock.acquire(timeout=10):
+                tree = ElementTree.parse(config_file)
+                root = tree.getroot()
+                for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
+                    # Check device is tag is support key
+                    if not LocalConfiger.__check_key_is_match_in_support_tag(device, key_tag):
+                        print('Device ' + device.get('name') + ' is not support tags and will continue next device.')
+                        continue
 
-                # Create virtual local config data
-                result = LocalConfiger.__create_virtual_local_config_dictionary(device, key_name)
+                    # Mark timestamp
+                    device.set('timestamp', str(datetime.utcnow()))
 
-                # Mark sate to Busy
-                device.set('state', State.BUSY)
+                    # Create virtual local config data
+                    result = LocalConfiger.__create_virtual_local_config_dictionary(device, key_name)
 
-                # Update xml local config file.
-                tree.write(config_file)
+                    # Mark sate to Busy
+                    device.set('state', State.BUSY)
 
-                # Return and exit function
-                # return result
-                break
+                    # Update xml local config file.
+                    tree.write(config_file)
+
+                    # Return and exit function
+                    # return result
+                    break
+
+        finally:
+            lock.release()
 
         if result is not None:
             return result
