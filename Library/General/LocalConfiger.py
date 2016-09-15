@@ -58,7 +58,11 @@ class LocalConfiger:
                 tree.write(config_file)
 
                 # Return and exit function
-                return result
+                # return result
+                break
+
+        if result is not None:
+            return result
 
         # All busy or not support throw fail
         raise Exception('All busy or not support.')
