@@ -24,57 +24,57 @@ class LocalConfiger:
     @staticmethod
     def release_virtual_local_config(config_file, device_name, timestamp):
         lock = FileLock(config_file)
-        try:
-            with FileLock(config_file):
-                tree = ElementTree.parse(config_file)
-                root = tree.getroot()
-                device = root.find('.//device[@name="' + device_name + '"]')
-                if timestamp != device.get('timestamp'):
-                    # Will can not change state because this locked by another.
-                    print('timestamp not valid to release device ' + device_name)
-                    return
-                device.set('state', State.NORMAL)
-                tree.write(config_file)
+        # try:
+        with FileLock(config_file):
+            tree = ElementTree.parse(config_file)
+            root = tree.getroot()
+            device = root.find('.//device[@name="' + device_name + '"]')
+            if timestamp != device.get('timestamp'):
+                # Will can not change state because this locked by another.
+                print('timestamp not valid to release device ' + device_name)
+                return
+            device.set('state', State.NORMAL)
+            tree.write(config_file)
 
-        finally:
-            if os.path.isfile(config_file + ".lock"):
-                lock.release()
+        # finally:
+        #     if os.path.isfile(config_file + ".lock"):
+        #         lock.release()
 
     @staticmethod
     def take_virtual_local_config(config_file, key_name, key_tag):
         # type: (basestring, basestring) -> dictionary
         result = None
         lock = FileLock(config_file)
-        try:
+        # try:
 
-            with lock:
-                tree = ElementTree.parse(config_file)
-                root = tree.getroot()
-                for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
-                    # Check device is tag is support key
-                    if not LocalConfiger.__check_key_is_match_in_support_tag(device, key_tag):
-                        print('Device ' + device.get('name') + ' is not support tags and will continue next device.')
-                        continue
+        with lock:
+            tree = ElementTree.parse(config_file)
+            root = tree.getroot()
+            for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
+                # Check device is tag is support key
+                if not LocalConfiger.__check_key_is_match_in_support_tag(device, key_tag):
+                    print('Device ' + device.get('name') + ' is not support tags and will continue next device.')
+                    continue
 
-                    # Mark timestamp
-                    device.set('timestamp', str(datetime.utcnow()))
+                # Mark timestamp
+                device.set('timestamp', str(datetime.utcnow()))
 
-                    # Create virtual local config data
-                    result = LocalConfiger.__create_virtual_local_config_dictionary(device, key_name)
+                # Create virtual local config data
+                result = LocalConfiger.__create_virtual_local_config_dictionary(device, key_name)
 
-                    # Mark sate to Busy
-                    device.set('state', State.BUSY)
+                # Mark sate to Busy
+                device.set('state', State.BUSY)
 
-                    # Update xml local config file.
-                    tree.write(config_file)
+                # Update xml local config file.
+                tree.write(config_file)
 
-                    # Return and exit function
-                    # return result
-                    break
+                # Return and exit function
+                # return result
+                break
 
-        finally:
-            if os.path.isfile(config_file + ".lock"):
-                lock.release()
+        # finally:
+        #     if os.path.isfile(config_file + ".lock"):
+        #         lock.release()
 
         if result is not None:
             return result
