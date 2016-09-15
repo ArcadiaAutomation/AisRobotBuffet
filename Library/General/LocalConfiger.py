@@ -1,6 +1,8 @@
 import xml.etree.ElementTree as ElementTree
+import os.path
 from DateTime import datetime
 from FileLock import FileLock
+
 
 
 # define constant
@@ -39,7 +41,7 @@ class LocalConfiger:
         lock = FileLock(config_file)
         try:
 
-            with lock.acquire(timeout=10):
+            with lock:
                 tree = ElementTree.parse(config_file)
                 root = tree.getroot()
                 for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
@@ -65,7 +67,8 @@ class LocalConfiger:
                     break
 
         finally:
-            lock.release()
+            if os.path.isfile(config_file + ".lock"):
+                lock.release()
 
         if result is not None:
             return result
