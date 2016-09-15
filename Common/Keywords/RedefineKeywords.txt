@@ -101,19 +101,19 @@ Click Web Image
 Click Web Element By Wait Web Until Page Contains Element
     [Arguments]    ${locator}    ${timeout}=${lo_general_timeout}
     Selenium2Library.Wait Until Page Contains Element    ${locator}    ${timeout}
-    Log To Console    ${locator}
+    Comment    Log To Console    ${locator}
     Selenium2Library.Click Element    ${locator}
 
 Click Web Button By Wait Web Until Page Contains Element
     [Arguments]    ${locator}    ${timeout}=${lo_general_timeout}
     Selenium2Library.Wait Until Page Contains Element    ${locator}    ${timeout}
-    Log To Console    ${locator}
+    Comment    Log To Console    ${locator}
     Selenium2Library.Click Button    ${locator}
 
 Input Web Text By Wait Web Until Page Contains Element
     [Arguments]    ${locator}    ${text}    ${timeout}=${lo_general_timeout}
     Selenium2Library.Wait Until Page Contains Element    ${locator}    ${timeout}
-    Log To Console    ${locator}
+    Comment    Log To Console    ${locator}
     Selenium2Library.Input Text    ${locator}    ${text}
 
 Get Web Text By Wait Web Until Page Contains Element
@@ -143,9 +143,24 @@ Select From Web List
     Wait Until Element Is Visible    ${locator}    ${timeout}
     Select From List    ${locator}    ${text}
 
-Start Browser
+Open Web Browser
     [Arguments]    ${url}    ${Browser}    ${ipSelenium}
-    ${options}=    SetChromeOption
+    Run Keyword If    '${Browser}' == 'gc'     start chrome browser    ${url}    ${Browser}    ${ipSelenium}    ${lo_path_chrome_extension}
+    ...    ${lo_IPLocalHost}
+    Run Keyword If    '${Browser}' == 'ff'    start firefox browser    ${url}    ${Browser}    ${ipSelenium}
+    Run Keyword If    '${Browser}' == 'ie'    start ie browser    ${url}    ${Browser}    ${ipSelenium}
+
+start chrome browser
+    [Arguments]    ${url}    ${Browser}    ${ipSelenium}    @{args}
+    ${options}=    SetChromeOption    @{args}[0]
     Open Browser    chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png    ${Browser}    remote_url=${ipSelenium}    desired_capabilities=${options}
-    Execute Javascript    localStorage.setItem('profiles', JSON.stringify([{title: 'Selenium', hideComment: true, appendMode: '',headers: [{enabled: true, name: 'X-Forwarded-For', value: '10.239.223.84', comment: ''}],respHeaders: [],filters: []}]));
+    Execute Javascript    localStorage.setItem('profiles', JSON.stringify([{title: 'Selenium', hideComment: true, appendMode: '',headers: [{enabled: true, name: 'X-Forwarded-For', value: '@{args}[1]', comment: ''}],respHeaders: [],filters: []}]));
     Go To    ${url}
+
+start firefox browser
+    [Arguments]    ${url}    ${Browser}    ${ipSelenium}
+    Open Browser    ${url}    ${Browser}    remote_url=${ipSelenium}
+
+start ie browser
+    [Arguments]    ${url}    ${Browser}    ${ipSelenium}
+    Open Browser    ${url}    ${Browser}    remote_url=${ipSelenium}

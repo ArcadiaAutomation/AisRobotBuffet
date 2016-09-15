@@ -5,9 +5,9 @@ from robot.libraries.BuiltIn import BuiltIn
 from selenium import webdriver
 
 
-def SetChromeOption():
+def SetChromeOption(filepath):
     options = webdriver.ChromeOptions()
-    options.add_extension('C:/Users/AtlasRobot/Downloads/ModHeader_2_1_1.crx')
+    options.add_extension(filepath)
     # options.add_argument("user-data-dir=C:/Program Files (x86)/Google/Chrome/Application/52.0.2743.116");
     # driver = webdriver.Remote('http://10.239.223.84:4444/wd/hub', options.to_capabilities())
     return options.to_capabilities()
@@ -15,7 +15,7 @@ def SetChromeOption():
 
 def openBrowserWithExtension():
     options = webdriver.ChromeOptions()
-    options.add_argument('--load-and-launch-app=C:/Users/AtlasRobot/Downloads/ModHeader_2_1_1.crx')
+    options.add_argument('--load-and-launch-app=/../AisRobotBuffet/Resource/ModHeader_2_1_1.crx')
     capabilities = webdriver.DesiredCapabilities()
     instance = BuiltIn().get_library_instance('Selenium2Library').create_webdriver('Remote', command_executor=url,
                                                                                    desired_capabilities=options.to_capabilities())
@@ -24,7 +24,7 @@ def openBrowserWithExtension():
 
 def OpenAndSetUpBrowser():
     options = webdriver.ChromeOptions()
-    options.add_extension('C:/Users/AtlasRobot/Downloads/ModHeader_2_1_1.crx')
+    options.add_extension('/../AisRobotBuffet/Resource/ModHeader_2_1_1.crx')
     driver = webdriver.Remote('http://10.239.223.84:4444/wd/hub', options.to_capabilities())
     driver.get('chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png')
     driver.execute_script(
