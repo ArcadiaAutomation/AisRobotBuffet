@@ -35,6 +35,7 @@ class LocalConfiger:
                     return
                 device.set('state', State.NORMAL)
                 tree.write(config_file)
+                print "Release success = > " + device_name + " Time => " + timestamp
 
         except:
             if os.path.isfile(config_file + ".lock"):
