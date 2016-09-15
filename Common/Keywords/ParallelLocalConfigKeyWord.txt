@@ -16,6 +16,6 @@ Release Virtual Local Configurations
     [Arguments]    ${local_config_file_path}    ${#list_device_name}    ${timeout}=120
     @{items}=    Get Dictionary Items    ${#list_device_name}
     : FOR    ${device_name}    ${timestamp}    IN    @{items}
-    \    Comment    Log    ${device_name} : ${timestamp}
+    \    Log To Console    ${device_name} : ${timestamp}
     \    Wait Until Keyword Succeeds    ${timeout} s    1 s    Release Virtual Local Config    ${local_config_file_path}    ${device_name}
     \    ...    ${timestamp}
