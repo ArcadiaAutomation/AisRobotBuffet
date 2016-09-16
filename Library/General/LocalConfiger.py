@@ -40,16 +40,18 @@ class LocalConfiger:
         except:
             if os.path.isfile(config_file + ".lock"):
                 lock.release()
-            raise Exception('Found error when try to release.')
+            raise Exception('Found error when try to release virtual data.')
 
     @staticmethod
     def take_virtual_local_config(config_file, key_name, key_tag):
         # type: (basestring, basestring) -> dictionary
         result = None
+        original_tree = None
         lock = FileLock(config_file)
         try:
 
             with lock:
+                original_tree = ElementTree.parse(config_file)
                 tree = ElementTree.parse(config_file)
                 root = tree.getroot()
                 for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
@@ -59,7 +61,7 @@ class LocalConfiger:
                         continue
 
                     # Mark timestamp
-                    device.set('timestamp', str(datetime.utcnow()))
+                    device.set('timestamp', str(datetime.now()))
 
                     # Create virtual local config data
                     result = LocalConfiger.__create_virtual_local_config_dictionary(device, key_name)
@@ -74,14 +76,16 @@ class LocalConfiger:
                     # return result
                     break
 
-            if result is not None:
-                return result
+                if result is not None:
+                    return result
 
         except:
             if os.path.isfile(config_file + ".lock"):
+                # try to reset to normal state
+                original_tree.write(config_file)
                 lock.release()
-            # All busy or not support throw fail
-            raise Exception('All busy or not support.')
+
+            raise Exception('Found error when try to take virtual data.')
 
         # All busy or not support throw fail
         raise Exception('All busy or not support.')
