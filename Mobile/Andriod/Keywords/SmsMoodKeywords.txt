@@ -100,22 +100,17 @@ mood Read All Unread SMS
     Log    Clear SMS
     ${status} =    Run Keyword And Return Status    Get Element Size    ${lblUnreadNumber}
     Return From Keyword If    '${status}'== 'False'    ${status}
-    @{unreadElements}=    Get Elements    ${lblUnreadNumber}
-    Log    @{unreadElements}[0]
-    Log    @{unreadElements}[1]
-    ${ElementSms}    Set Variable    @{unreadElements}[0]
-    ${number}=    Convert To Integer    ${ElementSms.get_attribute('text')}
-    @{messages}=    mood Collect SMS Message    ${ElementSms}    ${number}
-    Aisappium Click Element    ${btnSmsBack}
-    ${ElementSms}    Set Variable    @{unreadElements}[1]
-    ${number}=    Convert To Integer    ${ElementSms.get_attribute('text')}
-    log    ${number}
-    @{messages}=    mood Collect SMS Message    ${ElementSms}    ${number}
-    Aisappium Click Element    ${btnSmsBack}
-    Comment    :FOR    ${eachUnread}    IN    @{unreadElements}
-    Comment    \    Log    ${eachUnread}
-    Comment    \    ${number}=    Convert To Integer    ${eachUnread.get_attribute('text')}
-    Comment    \    @{messages}=    mood Collect SMS Message    ${eachUnread}    ${number}
-    Comment    \    Aisappium Click Element    ${btnSmsBack}
-    Comment    Log    End Clear SMS
+    @{unreadElements}    Get Elements    ${lblUnreadNumber}
+    @{tragetClick}    Get Elements    ${fraUnreadFlag}
+    ${Range}    Get Length    ${unreadElements}
+    Log    ${Range}
+    : FOR    ${index}    IN RANGE    0    ${Range}
+    \    ${strUnread}    Set Variable    @{unreadElements}[${index}]
+    \    ${strSender}    Set Variable    @{tragetClick}[${index}]
+    \    ${number}=    Convert To Integer    ${strUnread.get_attribute('text')}
+    \    @{messages}=    mood Collect SMS Message    ${strSender}    ${number}
+    \    Aisappium Click Element    ${btnSmsBack}
+    Log    End Clear SMS
+    log    @{messages}[0]
+    log    @{messages}[1]
     [Teardown]
