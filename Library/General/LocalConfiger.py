@@ -22,8 +22,10 @@ class LocalConfiger:
         print('hey.')
 
     @staticmethod
-    def release_virtual_local_config(config_file, device_name, timestamp):
+    def release_virtual_local_config(config_file, device_name, timestamp, max_repeat=3):
         lock = FileLock(config_file)
+        if max_repeat <= 0:
+            raise Exception('Over maximum repeat to release device :' + device_name + ' with timestamp ' + timestamp)
         try:
             with lock:
                 tree = ElementTree.parse(config_file)
@@ -40,6 +42,8 @@ class LocalConfiger:
         except:
             if os.path.isfile(config_file + ".lock"):
                 lock.release()
+                max_repeat -= 1
+                release_virtual_local_config(config_file, device_name, timestamp, max_repeat)
             raise Exception('Found error when try to release virtual data.')
 
     @staticmethod
