@@ -127,7 +127,7 @@ Collect Many Message
     Comment    Log    ${messages}
     ${Length}    Get Length    ${messages}
     ${index}    Set Variable    0
-    :FOR    ${index}    IN RANGE    ${Length}
+    : FOR    ${index}    IN RANGE    ${Length}
     \    Log    @{messages}[${index}]
     \    ${MessageOrder}    Set Variable    @{messages}[${index}]
     \    Log    ${MessageOrder}
