@@ -41,7 +41,7 @@ Clear All Unread SMS
     Comment    Log    Out Read All SMS
 
 Wait and Verify SMS
-    [Arguments]    ${platformName}    ${platformSN}    ${totalSMS}    ${senderName}    ${messageExpect}    ${timeout}=10
+    [Arguments]    ${platformName}    ${platformSN}    ${totalSMS}    ${messageExpect}    ${timeout}=10
     [Documentation]    You must Create List for send List to ${MessageExpect}
     ...    EX
     ...    @{MessageExpect} \ \ \ \ \ Create List ${MessageOne} \ \ \ \ ${MessageTwo}
@@ -50,7 +50,8 @@ Wait and Verify SMS
     Log    In Wait and Verify SMS
     Comment    sleep    2
     Wait SMS    ${platformName}    ${totalSMS}    ${timeout}
-    @{messages}=    Read SMS    ${platformName}    ${senderName}    ${totalSMS}
+    @{messages}=    Read All Unread SMS    ${platformName}
+    Comment    @{messages}=    Read SMS    ${platformName}    ${senderName}    ${totalSMS}
     ${lengthOfMsgExpect}    Get Length    ${messageExpect}
     ${indexOfExpect}    Set Variable    0
     : FOR    ${indexOfExpect}    IN RANGE    ${lengthOfMsgExpect}
@@ -76,3 +77,11 @@ Verify SMS
     \    Run Keyword If    '${messageExpect}'== '@{messages}[${indexOfActual}]'    Exit For Loop
     \    Run Keyword If    ${indexOfActual}==${result}    Fail    Message did not match...
     \    ${indexOfActual}    Evaluate    ${indexOfActual}+1
+
+Read All Unread SMS
+    [Arguments]    ${platformName}
+    Log    In Read All Unread SMS
+    ${CollectMessage}=    Run Keyword If    '${platformName}' == 'Android'    mood Read All Unread SMS
+    ${CollectMessage}=    Run Keyword If    '${platformName}' == 'iOS'    ios Read All Unread SMS
+    Log    Out Read All Unread SMS
+    [Return]    ${CollectMessage}
