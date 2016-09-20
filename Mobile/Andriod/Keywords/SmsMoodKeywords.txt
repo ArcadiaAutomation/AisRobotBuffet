@@ -5,14 +5,16 @@ Library           ../../../Library/Mobile/AISAppiumEx.py
 Resource          ../../Generic/Keywords/SmsGenericKeywords.txt
 Resource          ../../../Common/Keywords/RedefineKeywords.txt
 Library           OperatingSystem
+Library           String
 
 *** Keywords ***
 mood Wait SMS
     [Arguments]    ${totalSms}    ${timeout}    ${sender}
     Log    In mood Wait SMS
     ${timeout}=    Convert To Integer    ${timeout}
-    Run Keyword If    ${sender}==all    Wait Until Keyword Succeeds    ${timeout} s    1 s    mood Wait SMS All Sender    ${totalSms}
-    Run Keyword If    ${sender}!=all    FAIL    Not implement specific sender...
+    Run Keyword If    '${sender}'=='all'    Wait Until Keyword Succeeds    ${timeout} s    1 s    mood Wait SMS All Sender    ${totalSms}
+    Run Keyword If    '${sender}'!='all'    Wait Until Keyword Succeeds    ${timeout} s    1 s    mood Wait SMS With Sender    ${totalSms}
+    ...    ${sender}
     Log    Out mood Wait SMS
 
 mood Open SMS App
@@ -114,3 +116,21 @@ mood Read All Unread SMS
     log    @{messages}[0]
     log    @{messages}[1]
     [Teardown]
+
+mood Wait SMS With Sender
+    [Arguments]    ${TotalSMS}    ${Sender}
+    Log    In mood Wait SMS with Sender
+    ${intUnread}    Set Variable    0
+    @{unreadElements}    AISAppium Get Elements    ${lblUnreadNumber}
+    : FOR    ${eachUnread}    IN    @{unreadElements}
+    \    ${number}=    Convert To Integer    ${eachUnread.get_attribute('text')}
+    \    Run Keyword If    ${number} >= ${intUnread}    chack unread on sender    ${eachUnread.get_attribute('text')}    ${Sender}
+    Log    Out mood Wait SMS with Sender
+
+chack unread on sender
+    [Arguments]    ${TotalSMS}    ${Sender}
+    Log    In chack unread on sender
+    ${tempLocatorFlag}    Replace String    ${tempLocatorUnreadWithSender}    -[totalMsg]-    ${TotalSMS}
+    ${locatorSenderWithFlag}    Replace String    ${tempLocatorFlag}    -[Sender]-    ${Sender}
+    AISAppiumEx.Wait Until Page Contains Element    ${locatorSenderWithFlag}
+    Log    Out chack unread on sender
