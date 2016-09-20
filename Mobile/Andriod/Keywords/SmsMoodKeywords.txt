@@ -87,9 +87,11 @@ mood Close SMS App
     sleep    2
     Press Keycode    187
     sleep    2
+    Wait Mobile Until Page Contains Element    xpath=(//android.widget.TextView[@text='mood'])
     Click Mobile Element    xpath=(//android.widget.TextView[@text='mood'])
     sleep    1
     close application
+    Log    after close application
     sleep    1
     ${command}=    Set Variable    adb -s ${udid} shell am kill com.calea.echo
     Log    ${command}
