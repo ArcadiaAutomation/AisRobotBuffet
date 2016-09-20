@@ -145,6 +145,7 @@ Select From Web List
 
 Open Web Browser
     [Arguments]    ${url}    ${Browser}    ${ipSelenium}
+    Run Keyword If    '${Browser}' == 'gc'    start chrome browser    ${url}    ${Browser}    ${ipSelenium}    ${lo_path_chrome_extension}
     ...    ${lo_IPLocalHost}
     Run Keyword If    '${Browser}' == 'ff'    start firefox browser    ${url}    ${Browser}    ${ipSelenium}
     Run Keyword If    '${Browser}' == 'ie'    start ie browser    ${url}    ${Browser}    ${ipSelenium}
