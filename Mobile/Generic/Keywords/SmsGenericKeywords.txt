@@ -50,6 +50,7 @@ Wait and Verify SMS
     Log    In Wait and Verify SMS
     Comment    sleep    2
     Wait SMS    ${platformName}    ${totalSMS}    ${timeout}
+    Comment    @{messages}=    Read All Unread SMS    ${platformName}
     @{messages}=    Read SMS    ${platformName}    ${senderName}    ${totalSMS}
     ${lengthOfMsgExpect}    Get Length    ${messageExpect}
     ${indexOfExpect}    Set Variable    0
@@ -57,7 +58,6 @@ Wait and Verify SMS
     \    Comment    Verify SMS    ${totalSMS}    ${messages}    ${indexOfExpect}    ${messageExpect}
     \    Verify SMS    ${messages}    @{messageExpect}[${indexOfExpect}]
     \    ${indexOfExpect}    Evaluate    ${indexOfExpect}+1
-    Close SMS App    ${platformName}    ${platformSN}
     Log    Out Wait and Verify SMS
 
 Close SMS App
@@ -76,3 +76,28 @@ Verify SMS
     \    Run Keyword If    '${messageExpect}'== '@{messages}[${indexOfActual}]'    Exit For Loop
     \    Run Keyword If    ${indexOfActual}==${result}    Fail    Message did not match...
     \    ${indexOfActual}    Evaluate    ${indexOfActual}+1
+
+Read All Unread SMS
+    [Arguments]    ${platformName}
+    Log    In Read All Unread SMS
+    ${CollectMessage}=    Run Keyword If    '${platformName}' == 'Android'    mood Read All Unread SMS
+    ${CollectMessage}=    Run Keyword If    '${platformName}' == 'iOS'    ios Read All Unread SMS
+    Log    Out Read All Unread SMS
+    [Return]    ${CollectMessage}
+
+Wait and Verify Unread SMS
+    [Arguments]    ${platformName}    ${platformSN}    ${totalSMS}    ${messageExpect}    ${timeout}=10
+    [Documentation]    You must Create List for send List to ${MessageExpect}
+    ...    EX
+    ...    @{MessageExpect} \ \ \ \ \ Create List ${MessageOne} \ \ \ \ ${MessageTwo}
+    Log    In Wait and Verify Unread SMS
+    Comment    sleep    2
+    Wait SMS    ${platformName}    ${totalSMS}    ${timeout}
+    @{messages}=    Read All Unread SMS    ${platformName}
+    ${lengthOfMsgExpect}    Get Length    ${messageExpect}
+    ${indexOfExpect}    Set Variable    0
+    : FOR    ${indexOfExpect}    IN RANGE    ${lengthOfMsgExpect}
+    \    Comment    Verify SMS    ${totalSMS}    ${messages}    ${indexOfExpect}    ${messageExpect}
+    \    Verify SMS    ${messages}    @{messageExpect}[${indexOfExpect}]
+    \    ${indexOfExpect}    Evaluate    ${indexOfExpect}+1
+    Log    Out Wait and Verify Unread SMS

@@ -89,9 +89,11 @@ mood Close SMS App
     sleep    2
     Press Keycode    187
     sleep    2
+    Wait Mobile Until Page Contains Element    xpath=(//android.widget.TextView[@text='mood'])
     Click Mobile Element    xpath=(//android.widget.TextView[@text='mood'])
     sleep    1
     close application
+    Log    after close application
     sleep    1
     ${command}=    Set Variable    adb -s ${udid} shell am kill com.calea.echo
     Log    ${command}
@@ -100,22 +102,25 @@ mood Close SMS App
 
 mood Read All Unread SMS
     Log    Clear SMS
-    ${status} =    Run Keyword And Return Status    Get Element Size    ${lblUnreadNumber}
-    Return From Keyword If    '${status}'== 'False'    ${status}
-    @{unreadElements}    Get Elements    ${lblUnreadNumber}
-    @{tragetClick}    Get Elements    ${fraUnreadFlag}
-    ${Range}    Get Length    ${unreadElements}
-    Log    ${Range}
-    : FOR    ${index}    IN RANGE    0    ${Range}
-    \    ${strUnread}    Set Variable    @{unreadElements}[${index}]
-    \    ${strSender}    Set Variable    @{tragetClick}[${index}]
-    \    ${number}=    Convert To Integer    ${strUnread.get_attribute('text')}
-    \    @{messages}=    mood Collect SMS Message    ${strSender}    ${number}
+    @{CollectMessage}    Create List
+    ${index}    Set Variable    0
+    sleep    2
+    : FOR    ${index}    IN RANGE    1000
+    \    ${status}    Run Keyword And Return Status    AISAppiumEx.Aisappium Element Should Be Enabled    ${lblUnreadNumber}
+    \    sleep    2
+    \    Log    ${status}
+    \    Exit For Loop If    '${status}'=='False'
+    \    @{UnreadElementNew}=    Get Elements    ${lblUnreadNumber}
+    \    ${RealUnreadElement}=    Set Variable    @{UnreadElementNew}[0]
+    \    Log    ${RealUnreadElement.get_attribute('text')}
+    \    ${number}=    Convert To Integer    ${RealUnreadElement.get_attribute('text')}
+    \    Log    ${RealUnreadElement}
+    \    @{messages}=    mood Collect SMS Message    ${RealUnreadElement}    ${number}
     \    Aisappium Click Element    ${btnSmsBack}
+    \    @{CollectMessage}=    Collect Many Message    ${CollectMessage}    ${messages}
+    \    Log    ${CollectMessage}
     Log    End Clear SMS
-    log    @{messages}[0]
-    log    @{messages}[1]
-    [Teardown]
+    [Return]    ${CollectMessage}
 
 mood Wait SMS With Sender
     [Arguments]    ${TotalSMS}    ${Sender}
@@ -134,3 +139,19 @@ chack unread on sender
     ${locatorSenderWithFlag}    Replace String    ${tempLocatorFlag}    -[Sender]-    ${Sender}
     AISAppiumEx.Wait Until Page Contains Element    ${locatorSenderWithFlag}
     Log    Out chack unread on sender
+
+Collect Many Message
+    [Arguments]    ${CollectMessage}    ${messages}
+    Comment    ${One}    Create List    a    b
+    Comment    ${Two}    Create List    c    d
+    Comment    ${messages}    Create List    ${One}    ${Two}
+    Comment    Log    ${messages}
+    ${Length}    Get Length    ${messages}
+    ${index}    Set Variable    0
+    : FOR    ${index}    IN RANGE    ${Length}
+    \    Log    @{messages}[${index}]
+    \    ${MessageOrder}    Set Variable    @{messages}[${index}]
+    \    Log    ${MessageOrder}
+    \    Append To List    ${CollectMessage}    ${MessageOrder}
+    \    Log    ${CollectMessage}
+    [Return]    ${CollectMessage}

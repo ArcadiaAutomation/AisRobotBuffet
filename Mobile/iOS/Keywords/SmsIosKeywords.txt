@@ -16,3 +16,5 @@ ios Read SMS
     FAIL    Not Implement...
 
 ios Wait and Verify SMS
+
+ios Read All Unread SMS
