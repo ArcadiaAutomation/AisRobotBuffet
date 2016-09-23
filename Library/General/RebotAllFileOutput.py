@@ -2,7 +2,7 @@ import os ,sys
 
 def merge_execute(path):
 	path_AllOutput = path+"\\RebotAllFileOutput"
-	os.system("rmdir "+path_AllOutput)
+	os.system("del /S /Q "+path_AllOutput)
 	os.system("mkdir "+path_AllOutput)
 	dirs = os.listdir( path )
 	#print dirs
