@@ -7,14 +7,18 @@ def merge_execute(path):
 	dirs = os.listdir( path )
 	#print dirs
 	for file in dirs:
-		path_file_each_output = path+"\\"+file+"\\output.xml"
-		#print path_file_each_output
-		command = "copy " + path_file_each_output + " " + path_AllOutput
-		os.system(command)
-		rename = "rename " + path_AllOutput + "\\output.xml output" + file + ".xml"
-		#print rename
-		os.system(rename)
-		#os.system("Y")
+		Menu = file.split("Output")
+		print Menu
+		if Menu[0] == "" :
+			print Menu[0]
+			print Menu[1]
+			path_file_each_output = path+"\\"+file+"\\output"+Menu[1]+"*.xml"
+			#print path_file_each_output
+			command = "copy " + path_file_each_output + " " + path_AllOutput
+			os.system(command)
+			#rename = "rename " + path_AllOutput + "\\output.xml output" + file + ".xml"
+			#print rename
+			#os.system(rename)
 	rebot = "rebot --outputdir " + path + "\RebotAllFileOutput -N AllOutput -o outputAll.xml " + path + "\RebotAllFileOutput\output*.xml"
 	os.system(rebot)
 	
