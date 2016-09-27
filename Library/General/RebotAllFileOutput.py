@@ -14,7 +14,7 @@ def merge_execute(path):
 			print Menu[1]
 			path_file_each_output = path+"\\"+file+"\\output"+Menu[1]+"*.xml"
 			#print path_file_each_output
-			command = "copy " + path_file_each_output + " " + path_AllOutput
+			command = "cp " + path_file_each_output + " " + path_AllOutput
 			os.system(command)
 			#rename = "rename " + path_AllOutput + "\\output.xml output" + file + ".xml"
 			#print rename
