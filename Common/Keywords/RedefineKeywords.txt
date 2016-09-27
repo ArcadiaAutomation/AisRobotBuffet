@@ -83,7 +83,8 @@ Web Element Should Be Visible
 
 Web Element Text Should Be
     [Arguments]    ${locator}    ${text}    ${timeout}=${lo_general_timeout}
-    Wait Until Element Is Visible    ${locator}    ${timeout}
+    ${Visible}    Run Keyword And Return Status    Wait Until Element Is Visible    ${locator}    ${timeout}
+    Run Keyword If    ${Visible}==False    Wait Until Element Contains    ${locator}    ${timeout}
     Element Text Should Be    ${locator}    ${text}
 
 Select From Web List By Value
