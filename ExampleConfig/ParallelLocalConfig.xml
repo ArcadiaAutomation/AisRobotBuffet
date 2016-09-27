@@ -1,0 +1,162 @@
+<config>
+	<device name="LavaA2" state="Normal" timestamp="2016-09-26 13:15:36.689000">
+		<tags>
+			<tag>3PO</tag>
+			<tag>UnregistermPay</tag>
+			<tag>RegisterCallScreening</tag>
+			<tag>AisCloudUnregistered</tag>
+		</tags>
+		<default>
+			<item name="SN" type="Scalar">
+				<value>0123456789ABCDEF</value>
+			</item>
+			<item name="IPAppium" type="Scalar">
+				<value>10.239.223.84:4723</value>
+			</item>
+			<item name="Platfrom_Name" type="Scalar">
+				<value>Android</value>
+			</item>
+			<item name="Platfrom_Version" type="Scalar">
+				<value>5.1.1</value>
+			</item>
+			<item name="Number" type="Scalar">
+				<value>0613851273</value>
+			</item>
+			<item name="ID_Citizen" type="Scalar">
+				<value>D230625574116</value>
+			</item>
+		</default>			
+	</device>
+	<device name="SamsungJ7" state="Busy" timestamp="2016-09-20 19:57:48.522000">
+		<tags>
+			<tag>3PO</tag>
+			<tag>UnregistermPay</tag>
+			<tag>PrivilegeEspecially</tag>
+			<tag>RegisterCallScreening</tag>
+			<tag>AisCloudUnregistered</tag>
+		</tags>
+		<default>
+			<item name="SN" type="Scalar">
+				<value>3300fa759464132d</value>
+			</item>
+			<item name="IPAppium" type="Scalar">
+				<value>10.239.223.84:4725</value>
+			</item>
+			<item name="Platfrom_Name" type="Scalar">
+				<value>Android</value>
+			</item>
+			<item name="Platfrom_Version" type="Scalar">
+				<value>5.1.1</value>
+			</item>
+			<item name="Number" type="Scalar">
+				<value>0923026950</value>
+			</item>
+			<item name="ID_Citizen" type="Scalar">
+				<value>4335995049020</value>
+			</item>
+		</default>			
+	</device>
+	<device name="SamsungJ5" state="Busy" timestamp="2016-09-22 17:12:37.318000">
+		<tags>
+			<tag>3PO</tag>
+			<tag>UnregistermPay</tag>
+		</tags>
+		<default>
+			<item name="SN" type="Scalar">
+				<value>8f65cc76</value>
+			</item>
+			<item name="IPAppium" type="Scalar">
+				<value>10.239.223.84:4725</value>
+			</item>
+			<item name="Platfrom_Name" type="Scalar">
+				<value>Android</value>
+			</item>
+			<item name="Platfrom_Version" type="Scalar">
+				<value>5.1.1</value>
+			</item>
+			<item name="Number" type="Scalar">
+				<value>0613851339</value>
+			</item>
+			<item name="ID_Citizen" type="Scalar">
+				<value>D230625574116</value>
+			</item>
+		</default>			
+	</device>
+	<device name="SamsungJ2" state="Busy" timestamp="2016-09-20 17:55:52.006000">
+		<tags>
+			<tag>3PE</tag>
+			<tag>registermPay</tag>
+		</tags>
+		<default>
+			<item name="SN" type="Scalar">
+				<value>9201176364de23eb</value>
+			</item>
+			<item name="IPAppium" type="Scalar">
+				<value>10.239.223.84:4725</value>
+			</item>
+			<item name="Platfrom_Name" type="Scalar">
+				<value>Android</value>
+			</item>
+			<item name="Platfrom_Version" type="Scalar">
+				<value>5.1.1</value>
+			</item>
+			<item name="Number" type="Scalar">
+				<value>0924358406</value>
+			</item>
+		</default>			
+	</device>
+	<device name="SamsungA5" state="Busy" timestamp="2016-09-20 20:51:16.905000">
+		<tags>
+			<tag>3PO</tag>
+			<tag>UnregistermPay</tag>
+			<tag>RegisterCallScreening</tag>
+			<tag>AisCloudRegistered</tag>
+		</tags>
+		<default>
+			<item name="SN" type="Scalar">
+				<value>2a82ee4d</value>
+			</item>
+			<item name="IPAppium" type="Scalar">
+				<value>10.239.223.84:4725</value>
+			</item>
+			<item name="Platfrom_Name" type="Scalar">
+				<value>Android</value>
+			</item>
+			<item name="Platfrom_Version" type="Scalar">
+				<value>5.1.1</value>
+			</item>
+			<item name="Number" type="Scalar">
+				<value>0613851338</value>
+			</item>
+			<item name="ID_Citizen" type="Scalar">
+				<value>D230625574116</value>
+			</item>
+		</default>			
+	</device>
+	<device name="SamsungS4" state="Busy" timestamp="2016-09-22 18:57:12.924000">
+		<tags>
+			<tag>3PO</tag>
+			<tag>UnregistermPay</tag>
+			<tag>RegisterCallScreening</tag>
+			<tag>AisCloudRegistered</tag>
+			<tag>suspension</tag>
+		</tags>
+		<default>
+			<item name="SN" type="Scalar">
+				<value>4d00643b4828a0df</value>
+			</item>
+			<item name="IPAppium" type="Scalar">
+				<value>10.239.223.84:4725</value>
+			</item>
+			<item name="Platfrom_Name" type="Scalar">
+				<value>Android</value>
+			</item>
+			<item name="Platfrom_Version" type="Scalar">
+				<value>5.1.1</value>
+			</item>
+			<item name="Number" type="Scalar">
+				<value>0613851334</value>
+			</item>
+		</default>			
+	</device>
+</config>

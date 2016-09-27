@@ -1,0 +1,35 @@
+<config>
+	<device name="NumberTest1" state="Normal" timestamp="2016-09-26 13:26:06.977000">
+		<tags>
+			<tag>3PO</tag>
+			<tag>RegistermPay</tag>
+		</tags>
+		<default>
+			<item name="Number" type="Scalar">
+				<value>0937019815</value>
+			</item>
+		</default>			
+	</device>
+	<device name="NumberTest2" state="Normal" timestamp="2016-09-22 19:41:15.802000">
+		<tags>
+			<tag>3PO</tag>
+			<tag>eStagement</tag>
+		</tags>
+		<default>
+			<item name="Number" type="Scalar">
+				<value>0937019788</value>
+			</item>
+		</default>			
+	</device>
+	<device name="NumberTest3" state="Normal" timestamp="2016-09-26 11:34:00.747000">
+		<tags>
+			<tag>3PO</tag>
+			<tag>CreditCard</tag>
+		</tags>
+		<default>
+			<item name="Number" type="Scalar">
+				<value>0937019787</value>
+			</item>
+		</default>			
+	</device>
+</config>

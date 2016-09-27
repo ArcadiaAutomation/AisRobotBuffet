@@ -1,0 +1,11 @@
+*** Variables ***
+${lo_local_config_file_path}    ${CURDIR}\\..\\Config\\ParallelLocalConfig.xml
+${lo_parallel_timeout}    600
+${lo_IPSelenium}    http://10.239.223.84:4444/wd/hub
+${lo_AIS_Number}    0924260606
+${lo_general_timeout}    15
+${lo_path_chrome_extension}    D:/ArcadiaAtlas/Robot/AisRobotBuffet/Resource/ModHeader_2_1_1.crx
+${lo_IPLocalHost}    10.239.223.84
+${lo_sms_timeout}    60
+${lo_SenderName_AIS3G}    AIS3G
+${lo_local_config_file_path_test}    ${CURDIR}\\..\\Config\\TestSiteParallelLocalConfig.xml

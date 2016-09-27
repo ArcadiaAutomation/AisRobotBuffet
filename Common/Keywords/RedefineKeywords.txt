@@ -16,7 +16,7 @@ Click Web Element
 Click Mobile Element
     [Arguments]    ${locator}    ${timeout}=${lo_general_timeout}
     AISAppiumEx.Wait Until Page Contains Element    ${locator}    ${timeout}
-    AISAppiumEx.Click Element    ${locator}
+    Aisappium Click Element    ${locator}
 
 Click Web Button
     [Arguments]    ${locator}    ${timeout}=${lo_general_timeout}
