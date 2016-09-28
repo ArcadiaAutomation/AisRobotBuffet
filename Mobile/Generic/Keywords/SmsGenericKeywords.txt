@@ -12,11 +12,11 @@ Wait SMS
 
 Open SMS App
     [Arguments]    ${remoteUrl}    ${platformName}    ${platformVersion}    ${udid}
-    Comment    Log    In Open SMS App
-    Comment    Log    ${remoteUrl}
-    Comment    Log    ${platformName}
-    Comment    Log    ${platformVersion}
-    Comment    Log    ${udid}
+    Log    In Open SMS App
+    Log    ${remoteUrl}
+    Log    ${platformName}
+    Log    ${platformVersion}
+    Log    ${udid}
     Run Keyword If    '${platformName}' == 'Android'    mood Open SMS App    ${remoteUrl}    ${platformName}    ${platformVersion}    ${udid}
     Run Keyword If    '${platformName}' == 'iOS'    ios Open SMS App    ${remoteUrl}    ${platformName}    ${platformVersion}    ${udid}
     Comment    Log    Out Open SMS App

@@ -88,7 +88,7 @@ mood Close SMS App
     Log    In mood Close SMS App
     sleep    2
     Press Keycode    187
-    Comment    sleep    2
+    sleep    2
     Wait Mobile Until Page Contains Element    xpath=(//android.widget.TextView[@text='mood'])
     Click Mobile Element    xpath=(//*[@clickable='true' and (@content-desc='mood' or @text='mood')])
     sleep    1
