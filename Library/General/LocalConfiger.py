@@ -1,9 +1,8 @@
+import logging
 import xml.etree.ElementTree as ElementTree
 import os.path
 from DateTime import datetime
 from FileLock import FileLock
-
-
 
 # define constant
 DEVICE_NAME = '#device_name'
@@ -20,6 +19,7 @@ class State(object):
 class LocalConfiger:
     def __init__(self):
         print('hey.')
+        logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
     @staticmethod
     def release_virtual_local_config(config_file, device_name, timestamp, max_repeat=3):
@@ -92,6 +92,7 @@ class LocalConfiger:
             raise Exception('Found error when try to take virtual data.')
 
         # All busy or not support throw fail
+        logging.warning('All busy or not support...')
         raise Exception('All busy or not support.')
 
     @staticmethod
