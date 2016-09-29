@@ -59,19 +59,29 @@ class LocalConfiger:
         result = None
         original_tree = None
         lock = FileLock(config_file)
+        not_support_counter = 0
         try:
 
             with lock:
                 original_tree = ElementTree.parse(config_file)
                 tree = ElementTree.parse(config_file)
                 root = tree.getroot()
-                for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
+                # for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
+                # Get all element for check un-support
+                for device in root.findall('.//device'):
+
+                    # Check normal state
+                    if device.get('state') != State.NORMAL:
+                        # continue to check next device.
+                        continue
+
                     # Check device is tag is support key
                     if not LocalConfiger.__check_key_is_match_in_support_tag(device, key_tag):
                         msg_not_support_tag_and_try_next = 'Device ' + device.get('name') \
                                                            + ' is not support tags and will continue next device.'
                         logging.info(msg_not_support_tag_and_try_next)
                         # print(msg_not_support_tag_and_try_next)
+                        not_support_counter += 1
                         continue
 
                     # Mark timestamp
@@ -93,6 +103,10 @@ class LocalConfiger:
                 if result is not None:
                     logging.warning("Take virtual devices success.")
                     return result
+                elif len(root.findall('.//device')) == not_support_counter:
+                    msg_not_support_tag = 'Not found support tag in config...'
+                    logging.error(msg_not_support_tag)
+                    return None
 
         except:
             if os.path.isfile(config_file + ".lock"):
@@ -105,7 +119,7 @@ class LocalConfiger:
             raise Exception(msg_err_try_to_take_virtual)
 
         # All busy or not support throw fail
-        msg_all_busy_or_not_support = 'All busy or not support...'
+        msg_all_busy_or_not_support = 'All busy ...'
         logging.warning(msg_all_busy_or_not_support)
         raise Exception(msg_all_busy_or_not_support)
 
