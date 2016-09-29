@@ -25,7 +25,10 @@ class LocalConfiger:
     def release_virtual_local_config(config_file, device_name, timestamp, max_repeat=3):
         lock = FileLock(config_file)
         if max_repeat <= 0:
-            raise Exception('Over maximum repeat to release device name ' + device_name + ' with timestamp ' + timestamp)
+            msg_error_over_max_repeat = 'Over maximum repeat to release device name ' \
+                                        + device_name + ' with timestamp ' + timestamp
+            logging.error(msg_error_over_max_repeat)
+            raise Exception(msg_error_over_max_repeat)
         try:
             with lock:
                 tree = ElementTree.parse(config_file)
@@ -33,18 +36,22 @@ class LocalConfiger:
                 device = root.find('.//device[@name="' + device_name + '"]')
                 if timestamp != device.get('timestamp'):
                     # Will can not change state because this locked by another.
-                    print('timestamp not valid to release device ' + device_name)
+                    logging.info('timestamp not valid to release device ' + device_name)
+                    # print('timestamp not valid to release device ' + device_name)
                     return
                 device.set('state', State.NORMAL)
                 tree.write(config_file)
-                print "Release success = > " + device_name + " Time => " + timestamp
+                logging.info("Release success = > " + device_name + " Time => " + timestamp)
+                # print "Release success = > " + device_name + " Time => " + timestamp
 
         except:
             if os.path.isfile(config_file + ".lock"):
                 lock.release()
                 max_repeat -= 1
                 release_virtual_local_config(config_file, device_name, timestamp, max_repeat)
-            raise Exception('Found error when try to release virtual data.')
+            msg_error_when_release_virtual = 'Found error when try to release virtual data.'
+            logging.error(msg_error_when_release_virtual)
+            raise Exception(msg_error_when_release_virtual)
 
     @staticmethod
     def take_virtual_local_config(config_file, key_name, key_tag):
@@ -61,7 +68,10 @@ class LocalConfiger:
                 for device in root.findall('.//device[@state="' + State.NORMAL + '"]'):
                     # Check device is tag is support key
                     if not LocalConfiger.__check_key_is_match_in_support_tag(device, key_tag):
-                        print('Device ' + device.get('name') + ' is not support tags and will continue next device.')
+                        msg_not_support_tag_and_try_next = 'Device ' + device.get('name') \
+                                                           + ' is not support tags and will continue next device.'
+                        logging.info(msg_not_support_tag_and_try_next)
+                        # print(msg_not_support_tag_and_try_next)
                         continue
 
                     # Mark timestamp
@@ -81,6 +91,7 @@ class LocalConfiger:
                     break
 
                 if result is not None:
+                    logging.warning("Take virtual devices success.")
                     return result
 
         except:
@@ -89,18 +100,24 @@ class LocalConfiger:
                 original_tree.write(config_file)
                 lock.release()
 
-            raise Exception('Found error when try to take virtual data.')
+            msg_err_try_to_take_virtual = 'Found error when try to take virtual data.'
+            logging.error(msg_err_try_to_take_virtual)
+            raise Exception(msg_err_try_to_take_virtual)
 
         # All busy or not support throw fail
-        logging.warning('All busy or not support...')
-        raise Exception('All busy or not support.')
+        msg_all_busy_or_not_support = 'All busy or not support...'
+        logging.warning(msg_all_busy_or_not_support)
+        raise Exception(msg_all_busy_or_not_support)
 
     @staticmethod
     def __check_key_is_match_in_support_tag(device, filters):
         pass
-        print "filters : " + str(len(filters))
+        msg_filters = "filters : " + str(len(filters))
+        logging.info(msg_filters)
         if len(filters) == 0:
-            raise Exception('Not found tag filter.')
+            msg_not_found_tag = 'Not found tag filter.'
+            logging.error(msg_not_found_tag)
+            raise Exception(msg_not_found_tag)
         tags_in_xml = {}
         tags = device.find('tags')
         for eachTag in tags.findall('tag'):
@@ -124,7 +141,9 @@ class LocalConfiger:
             # else
             else:
                 # filter not support throw error
-                raise Exception('Not support filter ' + filters.get(each_filter))
+                msg_not_support_filter = 'Not support filter ' + filters.get(each_filter)
+                logging.error(msg_not_support_filter)
+                raise Exception(msg_not_support_filter)
 
         # All condition is passed.
         return True
