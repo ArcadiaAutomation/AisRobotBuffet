@@ -101,7 +101,7 @@ class LocalConfiger:
                     break
 
                 if result is not None:
-                    logging.warning("Take virtual devices success.")
+                    logging.info("Take virtual devices success.")
                     return result
                 elif len(root.findall('.//device')) == not_support_counter:
                     msg_not_support_tag = 'Not found support tag in config...'
@@ -120,7 +120,7 @@ class LocalConfiger:
 
         # All busy or not support throw fail
         msg_all_busy_or_not_support = 'All busy ...'
-        logging.warning(msg_all_busy_or_not_support)
+        logging.info(msg_all_busy_or_not_support)
         raise Exception(msg_all_busy_or_not_support)
 
     @staticmethod
